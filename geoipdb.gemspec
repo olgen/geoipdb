@@ -10,19 +10,19 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eugen Martin"]
   s.date = %q{2010-12-10}
-  s.description = %q{Can do > 3 Mio Search Operations / Sec. Reads Data from CSV-Files and uses internal binary caching.}
+  s.description = %q{Returns a GeoLocation to a given IP. Reads Data from CSV-Files and uses internal binary caching.}
   s.email = %q{eugeniusmartinus@googlemail.com}
   s.extensions = ["ext/extconf.rb"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.rdoc"
+    "README.markdown"
   ]
   s.files = [
     ".document",
     ".rspec",
     "Gemfile",
     "LICENSE.txt",
-    "README.rdoc",
+    "README.markdown",
     "Rakefile",
     "VERSION",
     "ext/build.sh",
@@ -31,6 +31,7 @@ Gem::Specification.new do |s|
     "ext/ipdb.c",
     "ext/ipdb.h",
     "ext/test.c",
+    "geoipdb.gemspec",
     "lib/geoipdb.rb",
     "spec/geoipdb_spec.rb",
     "spec/spec_helper.rb"
@@ -39,7 +40,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["ext"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{Fast GeoIpDb implementation for Ruby using C-Extensions.}
+  s.summary = %q{Fast (>3 Mio queries/sec!!!) GeoIpDb implementation for Ruby using C-Extensions.}
   s.test_files = [
     "spec/geoipdb_spec.rb",
     "spec/spec_helper.rb"
