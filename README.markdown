@@ -7,9 +7,9 @@ Fast (>3 Mio queries/sec!!!) GeoIpDb implementation for Ruby using C-Extensions.
 
 ## Usage
 
-  db = GeoIpDb.init "city_codes.csv", "ip_city.txt", "ip_city.cache"
-  location_hash = db.city_by_ip("178.0.0.1")
-  # => {"name"=>"eschborn", "country"=>"deu", "lng"=>8.55, "lat"=>50.133333} 
+  $ db = GeoIpDb.init "city_codes.csv", "ip_city.txt", "ip_city.cache"
+  $ location_hash = db.city_by_ip("178.0.0.1")
+  $ # => {"name"=>"eschborn", "country"=>"deu", "lng"=>8.55, "lat"=>50.133333} 
 
 == Copyright
 
