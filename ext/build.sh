@@ -1,0 +1,1 @@
+gcc -Wall -o test test.c ipdb.c ipdb.h

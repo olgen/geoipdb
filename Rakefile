@@ -15,9 +15,9 @@ Jeweler::Tasks.new do |gem|
   gem.name = "geoipdb"
   gem.homepage = "http://github.com/olgen/geoipdb"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: one-line summary of your gem}
-  gem.description = %Q{TODO: longer description of your gem}
-  gem.email = "eugen.martin@madvertise.de"
+  gem.summary = %Q{Fast GeoIpDb implementation for Ruby using C-Extensions.}
+  gem.description = %Q{TODO: Can do > 3 Mio Search Operations / Sec. Reads Data from CSV-Files and uses internal binary caching.}
+  gem.email = "eugeniusmartinus@googlemail.com"
   gem.authors = ["Eugen Martin"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
