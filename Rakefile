@@ -15,14 +15,12 @@ Jeweler::Tasks.new do |gem|
   gem.name = "geoipdb"
   gem.homepage = "http://github.com/olgen/geoipdb"
   gem.license = "MIT"
-  gem.summary = %Q{Fast GeoIpDb implementation for Ruby using C-Extensions.}
-  gem.description = %Q{TODO: Can do > 3 Mio Search Operations / Sec. Reads Data from CSV-Files and uses internal binary caching.}
+  gem.summary = %Q{Fast (>3 Mio queries/sec!!!) GeoIpDb implementation for Ruby using C-Extensions.}
+  gem.description = %Q{Returns a GeoLocation to a given IP. Reads Data from CSV-Files and uses internal binary caching.}
   gem.email = "eugeniusmartinus@googlemail.com"
   gem.authors = ["Eugen Martin"]
-  # Include your dependencies below. Runtime dependencies are required when using your gem,
-  # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
-  #  gem.add_runtime_dependency 'jabber4r', '> 0.1'
-  #  gem.add_development_dependency 'rspec', '> 1.2.3'
+  gem.extensions   = ['ext/extconf.rb']
+  gem.require_path = "ext"  
 end
 Jeweler::RubygemsDotOrgTasks.new
 

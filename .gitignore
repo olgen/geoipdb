@@ -40,3 +40,10 @@ pkg
 #
 # For vim:
 #*.swp
+Gemfile.lock
+ext/Makefile
+ext/geoipdb.bundle
+ext/geoipdb.o
+ext/ipdb.o
+ext/test.o
+ext/test

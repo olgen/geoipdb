@@ -18,7 +18,8 @@ typedef int int32;
 #define MAX_RANGES_COUNT 10000000 //Usually we have about 6 Mio IP-Ranges
 #define MAX_CITIES_COUNT 100000   //Usually we have about 50 000 Cities
 
-#define USE_CACHE 0
+#define USE_CACHE 1
+#define DEBUG 1
 
 typedef struct{
   unsigned long from;

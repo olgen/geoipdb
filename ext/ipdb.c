@@ -13,13 +13,13 @@ void cpy(char **from,char **to){
 }
 
 
-void print_range(const IpRange* e){
-  // printf( "from: %lu, to:%lu ->City: %i, idx: %i \n",e->from, e->to,e->city_code, e->city_index );  
+void 
+print_range(const IpRange* e){
   printf( "from: %lu, to:%lu ->City-idx: %i \n",e->from, e->to,e->city_index );    
 }
 
-void print_ranges(IPDB * db){
-  // printf( "from: %d, to:%d, gps:%s",e->from, e->to, e->gps );
+void 
+print_ranges(IPDB * db){
   int i;
   for(i = 0; i < db->ranges_count; ++i)
   {
@@ -27,14 +27,13 @@ void print_ranges(IPDB * db){
   }
 }
 
-void print_city(const City * e){
+void 
+print_city(const City * e){
   printf( "City: code:%i, name:%s, country: %s, lat: %10.7f, lng: %10.7f  \n",e->city_code, e->name, e->country_iso3, e->lat, e->lng );    
 }
 
-
 void 
 print_cities(IPDB * db){
-  // printf( "from: %d, to:%d, gps:%s",e->from, e->to, e->gps );
   int i;
   for(i = 0; i < db->cities_count; ++i)
   {
@@ -333,7 +332,7 @@ read_cities_csv(IPDB * db){
     if(i == 1)
       continue;//skip the header
 
-    if(i % 100000 == 0)
+    if(DEBUG && i % 1000000 == 0)
     {
       printf("Worked lines: %i\n", i);
     }
@@ -349,22 +348,16 @@ read_cities_csv(IPDB * db){
     
     entry = &(db->cities[db->cities_count]);
     
-    // cpy(&country, &(entry->country_iso3));
     strncpy(entry->country_iso3, country, strlen(country));
     strncpy(entry->name, name, strlen(name));
         
-    // cpy(&name,  &(entry->name));
-    
     entry->city_code =    atoi(city_code);
     entry->lat =          atof(lat);
     entry->lng =          atof(lng);
-    
-     // print_city(entry);
-
-    // printf("working record nr: %i\n", db->cities_count);
     db->cities_count++;
-  } 
-  printf("\n Parsing of %i records needed %.6lf seconds\n", db->cities_count, get_time(&tim)-t1);
+  }
+  if(DEBUG)
+    printf("\n Parsing of %i records needed %.6lf seconds\n", db->cities_count, get_time(&tim)-t1);
 }
 
 /**
@@ -482,34 +475,27 @@ IPDB * init_db(char * cities_csv_file, char * ranges_csv_file, char * cache_file
     
 
   if(USE_CACHE && read_cache_file(db) > 0){
-    printf("Loaded DB from Cache-File with %i records \n", db->ranges_count);
+    if(DEBUG)
+      printf("Loaded DB from Cache-File with %i records \n", db->ranges_count);
   }else{
-    printf("Initializing IPDB from CSV-file: %s \n", db->ranges_csv_file);    
+    if(DEBUG)
+      printf("Initializing IPDB from CSV-file: %s \n", db->ranges_csv_file);    
     read_cities_csv(db);
     // print_cities(db);
+    if(db->cities_count == 0)
+    {
+      return NULL;
+    }
     sort_cities(db);
     read_ranges_csv(db);
-    // print_ranges(db);
     // //TODO: sort ranges
     if(db!=NULL && db->ranges_count > 0 && USE_CACHE)
     {
-      printf("Got %i records from CSV-file, writing to cache...\n", db->ranges_count);    
+      if(DEBUG)
+        printf("Got %i records from CSV-file, writing to cache...\n", db->ranges_count);    
       write_cache_file(db);
     }
   }
-  
-  // print_ranges(db);
-  // read_cache_file(db);
-  
-  //// Test the last entries in the csv
-  // int index = city_index_by_code(db, 43416);
-  // printf("===== ?\n");
-  // print_city(&(db->cities[index]));
-  // city_index_by_code(db, 43418);
-  // city_index_by_code(db, 12437);
-  // city_index_by_code(db, 43417);
-  // city_index_by_code(db, 47916);  
-
   return db;  
 }
 
