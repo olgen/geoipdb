@@ -61,21 +61,29 @@ void geoipdb_free(geoipdb *gi) {
 
 VALUE ipdb_init(VALUE self, VALUE cities_file_name, VALUE ranges_file_name, VALUE cache_file_name) {
   geoipdb *gi;
+  
+  Check_Type(cities_file_name, T_STRING);
+  Check_Type(ranges_file_name, T_STRING);
+  Check_Type(cache_file_name, T_STRING);
+  
   char *cities_csv_file = RSTRING(cities_file_name)->ptr;
   char *ranges_csv_file = RSTRING(ranges_file_name)->ptr;
   char *cache_file =      RSTRING(cache_file_name)->ptr;  
-  
-    
-  // gi = ALLOC(geoipdb);
   
   gi = malloc(sizeof(geoipdb));
   
   gi->db= init_db(cities_csv_file, ranges_csv_file, cache_file);
   
-  printf("\nDB Init completed!\n");
-  
-  // return gi;
-  return(Data_Wrap_Struct(cGeoIpDb, 0, geoipdb_free, gi));
+  if(gi->db == NULL)
+  {
+    if(DEBUG)
+      printf("Could not init DB!\n");
+    return Qnil;
+  }else{
+    if(DEBUG)
+      printf("\nDB Init completed!\n");
+    return(Data_Wrap_Struct(cGeoIpDb, 0, geoipdb_free, gi));    
+  }
 }
 
 
