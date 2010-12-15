@@ -14,12 +14,12 @@ typedef int int32;
 
 #define RANGES_DELIM "|"
 #define CITIES_DELIM ","
-#define MAX_CITY_NAME_LENGTH 20
+#define MAX_CITIES_COUNT 100000 //Usually we have about 50 000 Cities
 #define MAX_RANGES_COUNT 10000000 //Usually we have about 6 Mio IP-Ranges
-#define MAX_CITIES_COUNT 100000   //Usually we have about 50 000 Cities
+
 
 #define USE_CACHE 1
-#define DEBUG 1
+#define DEBUG 0
 
 typedef struct{
   unsigned long from;
