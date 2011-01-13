@@ -6,15 +6,12 @@
 Ruby Wrapper
 */
 
-
-
 typedef struct geipdb {
   IPDB *db;
 } geoipdb;
 
-
 static VALUE cGeoIpDb;
-// 
+
 VALUE method_hello_world(VALUE self);
 
 // free the memory used by the db, called by the Ruby-GC
@@ -60,6 +57,9 @@ VALUE ipdb_init(VALUE self, VALUE cities_file_name, VALUE ranges_file_name, VALU
   {
     if(DEBUG)
       printf("Could not init DB!\n");
+    /*
+      TODO: Add geoipdb_free in this case.. though not important for production...
+    */
     return Qnil;
   }else{
     if(DEBUG)

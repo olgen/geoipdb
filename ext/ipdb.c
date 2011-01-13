@@ -66,12 +66,6 @@ const char country_iso3_codes[253][4] = { "--","ap","eu","and","are","afg","atg"
   "blm","maf"};
 
 
-// void cpy(char **from,char **to){
-//   *to = malloc(strlen(*from));
-//   strcpy(*to,*from);
-// }
-
-
 void 
 print_range(const IpRange* e){
   printf( "from: %lu, to:%lu ->City-idx: %i \n",e->from, e->to,e->city_index );    
@@ -88,6 +82,10 @@ print_ranges(IPDB * db){
 
 void 
 print_city(const City * e){
+  if(e == NULL)
+  {
+    return;
+  }
   printf( "City: code:%i, name:%s, country: %s, lat: %10.7f, lng: %10.7f  \n",e->city_code, e->name, e->country_iso3, e->lat, e->lng );    
 }
 
@@ -231,7 +229,11 @@ city_index_by_code(IPDB * db, uint16 city_code){
   City *search, *result;
   search = malloc(sizeof(City));
   search->city_code = city_code;
-  result = (City*) bsearch(search, db->cities, db->cities_count, sizeof(City), compare_cities);      
+  result = (City*) bsearch(search, db->cities, db->cities_count, sizeof(City), compare_cities);
+  
+  if(search != NULL)
+    free(search);
+  
   if(result == NULL)
   {
     if(DEBUG)
@@ -252,7 +254,6 @@ City *
 city_by_ip(IPDB *db, char *ip){
   IpRange * search, *result;
   search = (IpRange *)malloc(sizeof(IpRange));
-  result = (IpRange *)malloc(sizeof(IpRange));  
   void * res;
 
   // print_stats(db);
@@ -276,14 +277,15 @@ city_by_ip(IPDB *db, char *ip){
     printf("Searching for: ip=%s, ipnum=%lu \n", ip, search->from);
   // result = (IpRange*) bsearch(search, db->ranges, db->ranges_count-2, sizeof(IpRange), compare_ranges);    
   res = bsearch(search, db->ranges, db->ranges_count, sizeof(IpRange), compare_ranges);
-
+  if(search != NULL)
+    free(search);
+    
   if(res == NULL)
   { 
     if(DEBUG)
     printf("ERROR: Could not find the IP: %s! THIS SHOULD NOT HAPPEN!\n", ip);
     return NULL;
   }else{
-
     result = (IpRange*) res;
     if(DEBUG){
       printf("Found Range: \t");    
@@ -385,11 +387,11 @@ iso2_code(char* iso3){
     // printf("Trying cmp of %s and %s...", iso3, country_iso3_codes[i]);
     if(  strcmp(country_iso3_codes[i],iso3)==0)
     {
-      return country_iso2_codes[i];
+      return (char*) country_iso2_codes[i];
     }
   }
   // printf("Could not find iso2 code for iso3: %s, using: '%s' \n", iso3, country_iso2_codes[0]);
-  return country_iso2_codes[0];
+  return (char*) country_iso2_codes[0];
 }
 
 //read city-data from csv-file of format:
@@ -546,16 +548,18 @@ read_cache_file(IPDB * db){
 
 void 
 benchmark_search(IPDB * db,int count){
-  printf("Benchmarking City-Search-Function with %i counts \n", count);
+  printf("(Naiv) benchmark of the City-Search-Function with %i counts \n", count);
   struct timeval tim;  
   double t1 = get_time(&tim);
   int i;
   City * city;
-  for(i=0;i<count; i++){
 
+  for(i=0;i<count; i++){
      city = city_by_ip(db, "278.50.47.0");
   }
-  printf("\n\nSearch: %.6lf seconds elapsed\n", get_time(&tim)-t1);  
+  double delta = get_time(&tim)-t1;
+  
+  printf("\n\nSearch: %.6lf seconds elapsed, i.e. %.6lf Ops/Second \n", delta, count / delta);  
 }
 
 IPDB * init_db(char * cities_csv_file, char * ranges_csv_file, char * cache_file_name){

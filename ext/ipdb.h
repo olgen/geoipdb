@@ -64,3 +64,6 @@ city_by_ip(IPDB *db, char *ip);
 
 void 
 print_city(const City * e);
+
+void 
+benchmark_search(IPDB * db,int count);
