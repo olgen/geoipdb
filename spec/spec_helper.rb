@@ -1,7 +1,8 @@
 $LOAD_PATH.unshift(File.join(File.dirname(__FILE__), '..', 'ext'))
 $LOAD_PATH.unshift(File.dirname(__FILE__))
+
 require 'rspec'
-require 'geoipdb'
+require 'lib/ipdb'
 
 # Requires supporting files with custom matchers and macros, etc,
 # in ./support/ and its subdirectories.
