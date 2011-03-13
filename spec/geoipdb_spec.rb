@@ -1,20 +1,20 @@
 require File.expand_path(File.dirname(__FILE__)+'/spec_helper')
 
 
-describe IpDb do                                                               
+describe GeoIpDb do                                                               
   
   CACHE_FILE = 'sample_data/ipdb.cache'
   
   def init_db
-    @db = IpDb.init './sample_data/cities.csv', './sample_data/ip_ranges.csv', CACHE_FILE 
+    @db = GeoIpDb.init './sample_data/cities.csv', './sample_data/ip_ranges.csv', CACHE_FILE 
   end       
   
   it "should not throw an exception fault if data is corrupt" do
-    @db = IpDb.init './sample_data/cities_corrupt.csv', './sample_data/ip_ranges_corrupt.csv', CACHE_FILE
+    @db = GeoIpDb.init './sample_data/cities_corrupt.csv', './sample_data/ip_ranges_corrupt.csv', CACHE_FILE
   end
 
   it "should not init a db object if data files are missing" do
-    IpDb.init( './sample_data/bla.csv', './sample_data/blubb.csv', CACHE_FILE ).should be_nil
+    GeoIpDb.init( './sample_data/bla.csv', './sample_data/blubb.csv', CACHE_FILE ).should be_nil
   end
   
   it "should init correctly with sample data and create the cache-file" do

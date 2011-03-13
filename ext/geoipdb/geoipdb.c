@@ -104,7 +104,7 @@ VALUE ipdb_information_for_ip(VALUE self, VALUE ip_string){
 
 void Init_geoipdb(void)
 {     
-  cIpDb = rb_define_class( "IpDb", rb_cObject);
+  cIpDb = rb_define_class( "GeoIpDb", rb_cObject);
   rb_define_singleton_method( cIpDb, "init", ipdb_init, 3); 
   rb_define_method( cIpDb, "information_for_ip",  ipdb_information_for_ip, 1);  
 }
