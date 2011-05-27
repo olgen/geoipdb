@@ -15,16 +15,15 @@ typedef int int32;
 #define RANGES_DELIM "|"
 #define CITIES_DELIM ","
 #define MAX_CITIES_COUNT 100000 //Usually we have about 50 000 Cities
-#define MAX_RANGES_COUNT 10000000 //Usually we have about 6 Mio IP-Ranges
-
+#define MAX_RANGES_COUNT 10000000 //Usually we have about 6 Mio IP-Ranges       
 
 #define USE_CACHE 1
 #define DEBUG 0
 
 typedef struct{
   unsigned long from;
-  unsigned long to;
-  // uint16 city_code; //city codes are not larger than 2**16 = 65536
+  unsigned long to;     
+  unsigned char is_mobile;
   uint16 city_index; //index of the city in the cities-array
 } IpRange;
 
@@ -59,11 +58,12 @@ typedef struct{
 IPDB * 
 init_db(char * cities_csv_file, char * ranges_csv_file, char * cache_file_name);
 
-City * 
-city_by_ip(IPDB *db, char *ip);
 
 void 
 print_city(const City * e);
 
 void 
-benchmark_search(IPDB * db,int count);
+benchmark_search(IPDB * db,int count);        
+
+IpRange* find_range_for_ip(IPDB *db, char *ip);
+City * find_city_for_ip_range(IPDB * db, IpRange* range); 

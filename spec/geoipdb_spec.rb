@@ -1,37 +1,50 @@
 require File.expand_path(File.dirname(__FILE__)+'/spec_helper')
 
 
-describe "Geoipdb" do
-  def init_db
-    @db = GeoIpDb.init './sample_data/cities.csv', './sample_data/ip_ranges.csv', @cache_file
-  end
+describe GeoIpDb do                                                               
   
-  before :each do
-    @cache_file = 'sample_data/ipdb.cache'
+  CACHE_FILE = 'sample_data/ipdb.cache'
+  
+  def init_db
+    @db = GeoIpDb.init './sample_data/cities.csv', './sample_data/ip_ranges.csv', CACHE_FILE 
+  end       
+  
+  it "should not throw an exception fault if data is corrupt" do
+    @db = GeoIpDb.init './sample_data/cities_corrupt.csv', './sample_data/ip_ranges_corrupt.csv', CACHE_FILE
+  end
+
+  it "should not init a db object if data files are missing" do
+    GeoIpDb.init( './sample_data/bla.csv', './sample_data/blubb.csv', CACHE_FILE ).should be_nil
   end
   
   it "should init correctly with sample data and create the cache-file" do
     init_db
     @db.should_not be_nil
-    File.exist?(@cache_file).should be_true
+    File.exist?(CACHE_FILE).should be_true
   end
   
   it "sould find the sample cities correcty" do 
     init_db
     #afg,no region,kabul,-1,3,34.5167,69.1833
-    @db.city_by_ip("1.1.0.254").should == {'city_code'=>3, 'name'=>'kabul', 'country'=>'af', 'lat'=>34.5167, 'lng'=>69.1833}
+    info = @db.information_for_ip "1.1.0.254"         
+    info.city_code.should == 3
+    info.city_name.should == 'kabul'             
+    info.country_iso_code.should == 'af'
+    info.lat.should == 34.5167
+    info.lng.should == 69.1833
+    info.should_not be_mobile
   end
   
-  it "should not throw an exception fault if data is corrupt" do
-    @db = GeoIpDb.init './sample_data/cities_corrupt.csv', './sample_data/ip_ranges_corrupt.csv', @cache_file    
-  end
-
-  it "should not init a db object if data files are missing" do
-    GeoIpDb.init( './sample_data/bla.csv', './sample_data/blubb.csv', @cache_file    ).should be_nil
-  end
+  it 'should return correct is_mobile information' do
+    init_db           
+    @db.information_for_ip("1.0.0.1").should_not be_mobile             
+    @db.information_for_ip("1.1.1.1").should be_mobile
+  end 
+  
 
   
   after :each do
-    File.unlink @cache_file if File.exist? @cache_file
+    File.unlink CACHE_FILE if File.exist? CACHE_FILE
   end
+
 end

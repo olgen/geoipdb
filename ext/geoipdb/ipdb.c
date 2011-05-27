@@ -6,9 +6,6 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-
-
-
 const char country_iso2_codes[253][3] = { "--","ap","eu","ad","ae","af","ag","ai","al","am","an",
 	"ao","aq","ar","as","at","au","aw","az","ba","bb",
 	"bd","be","bf","bg","bh","bi","bj","bm","bn","bo",
@@ -144,7 +141,26 @@ ip_to_int(const char *addr){
 	ipnum <<= 8;
 	return ipnum + octet;
 }
+      
 
+unsigned char con_type_to_int(char* con_type) {
+  // possible values
+  // ?
+  // dialup
+  // broadband
+  // cable
+  // xdsl
+  // mobile
+  // t1
+  // t3
+  // oc3
+  // oc12
+  // satellite
+  // wireless                
+  if(strlen(con_type) > 0 && (con_type[0] == 'm'))
+    return 1;
+  return 0;
+}
 
 // Function to compare 
 // - either two ip-ranges: i.e.: a(from...to) <=> b(from...to)
@@ -250,13 +266,10 @@ city_index_by_code(IPDB * db, uint16 city_code){
 }
 
 
-City * 
-city_by_ip(IPDB *db, char *ip){
-  IpRange * search, *result;
+IpRange* find_range_for_ip(IPDB *db, char *ip) {
+  IpRange* search;
+  IpRange* result;
   search = (IpRange *)malloc(sizeof(IpRange));
-  void * res;
-
-  // print_stats(db);
   
   if(db == NULL)
   {
@@ -275,24 +288,29 @@ city_by_ip(IPDB *db, char *ip){
   search->city_index = 0;
   if(DEBUG)
     printf("Searching for: ip=%s, ipnum=%lu \n", ip, search->from);
-  // result = (IpRange*) bsearch(search, db->ranges, db->ranges_count-2, sizeof(IpRange), compare_ranges);    
-  res = bsearch(search, db->ranges, db->ranges_count, sizeof(IpRange), compare_ranges);
+  result = (IpRange*)bsearch(search, db->ranges, db->ranges_count, sizeof(IpRange), compare_ranges);
   if(search != NULL)
     free(search);
     
-  if(res == NULL)
+  if(result == NULL)
   { 
     if(DEBUG)
-    printf("ERROR: Could not find the IP: %s! THIS SHOULD NOT HAPPEN!\n", ip);
+      printf("ERROR: Could not find the IP: %s! THIS SHOULD NOT HAPPEN!\n", ip);
     return NULL;
-  }else{
-    result = (IpRange*) res;
-    if(DEBUG){
+  } else {
+    if(DEBUG) {
       printf("Found Range: \t");    
       print_range(result);  
-    }
+    }                       
+    return (IpRange*)result; 
   }
-  
+}
+
+City * find_city_for_ip_range(IPDB * db, IpRange* range) 
+{
+  if(!db || !range)
+    return NULL;  
+                                                                 
   if(db->cities_count == 0)
   {
     if(DEBUG)
@@ -300,21 +318,20 @@ city_by_ip(IPDB *db, char *ip){
     return NULL;
   }
   
-  
-  if(result->city_index >0 && result->city_index < db->cities_count)
+  if( range->city_index <= 0 || range->city_index >= db->cities_count ) 
   {
-    // address the city directly via the array-idx
-    return &(db->cities[result->city_index]);
-  } else {
     if(DEBUG)
-      printf("ERROR: Could not find city with index: %i - THIS SHOULD NOT HAPPEN!\n", result->city_index);
-    return NULL; 
-  }
+      printf("ERROR: Could not find city with index: %i - THIS SHOULD NOT HAPPEN!\n", range->city_index);
+  }                                                                                                      
+  
+  return &(db->cities[range->city_index]);
 }
 
 
+
+
 // read ip-ranges from csv file, of format:
-// from_ip|to_ip|city_code
+// from_ip|to_ip|contype|city_code
 void 
 read_ranges_csv(IPDB * db){  
   struct timeval tim;
@@ -334,7 +351,8 @@ read_ranges_csv(IPDB * db){
   char line[256];
   char* from = NULL;
   char* to = NULL;
-  char* city_code = NULL;
+  char* city_code = NULL;         
+  char* con_type = NULL;
   int invalid_cities_count = 0;
   int city_index;
   
@@ -346,6 +364,7 @@ read_ranges_csv(IPDB * db){
 
     from =      strtok(line, RANGES_DELIM);
     to =        strtok(NULL, RANGES_DELIM);
+    con_type =  strtok(NULL, RANGES_DELIM);
     city_code = strtok(NULL, RANGES_DELIM);
     city_index = city_index_by_code(db, atoi(city_code));
     if(city_index < 0)
@@ -356,11 +375,9 @@ read_ranges_csv(IPDB * db){
       continue;
     }else{
       entry = &(db->ranges[db->ranges_count]);
-    
       entry->from = ip_to_int(from);
-      entry->to = ip_to_int(to);
-      // entry->city_code = atoi(city_code);
-    
+      entry->to = ip_to_int(to);           
+      entry->is_mobile = con_type_to_int(con_type);
       entry->city_index = city_index;
       // printf("Line: %s", line);
       // printf("from: %u,to: %u, city_code:%i \n",entry->from,entry->to,entry->city_code);
@@ -554,8 +571,9 @@ benchmark_search(IPDB * db,int count){
   int i;
   City * city;
 
-  for(i=0;i<count; i++){
-     city = city_by_ip(db, "278.50.47.0");
+  for(i=0;i<count; i++){             
+    IpRange* range = find_range_for_ip(db,"278.50.47.0");
+    City* city = find_city_for_ip_range(db,range);
   }
   double delta = get_time(&tim)-t1;
   

@@ -13,14 +13,15 @@ require 'jeweler'
 Jeweler::Tasks.new do |gem|
   # gem is a Gem::Specification... see http://docs.rubygems.org/read/chapter/20 for more options
   gem.name = "geoipdb"
-  gem.homepage = "http://github.com/olgen/geoipdb"
+  gem.homepage = "http://github.com/madvertise/geoipdb"
   gem.license = "MIT"
   gem.summary = %Q{Fast (>3 Mio queries/sec!!!) GeoIpDb implementation for Ruby using C-Extensions.}
-  gem.description = %Q{Returns a GeoLocation to a given IP. Reads Data from CSV-Files and uses internal binary caching.}
+  gem.description = %Q{Returns a GeoLocation and additional information for given IP. Reads Data from CSV-Files and uses internal binary caching.}
   gem.email = "eugeniusmartinus@googlemail.com"
-  gem.authors = ["Eugen Martin"]
-  gem.extensions   = ['ext/extconf.rb']
-  gem.require_path = "ext"  
+  gem.authors = ["Eugen Martin", "Martin Karlsch"]
+  gem.extensions   = ['ext/geoipdb/extconf.rb']
+  gem.require_paths = ["lib","ext"]
+   
 end
 Jeweler::RubygemsDotOrgTasks.new
 
