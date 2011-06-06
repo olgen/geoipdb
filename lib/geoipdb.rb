@@ -9,6 +9,8 @@ class IpInformation
   attr_accessor :lat
   attr_accessor :lng
   attr_accessor :is_mobile
+  attr_accessor :isp_name
+  
   def mobile?
     @is_mobile
   end

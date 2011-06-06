@@ -12,19 +12,24 @@ typedef int int32;
 #endif
 
 
-#define RANGES_DELIM "|"
-#define CITIES_DELIM ","
+#define RANGES_DELIM ",\n"
+#define CITIES_DELIM ",\n"
+
 #define MAX_CITIES_COUNT 100000 //Usually we have about 50 000 Cities
 #define MAX_RANGES_COUNT 10000000 //Usually we have about 6 Mio IP-Ranges       
 
+#define MAX_ISPS_COUNT 100000
+#define MAX_ISP_NAME_LENGTH 100
+
 #define USE_CACHE 1
-#define DEBUG 0
+#define DEBUG 1
 
 typedef struct{
   unsigned long from;
   unsigned long to;     
   unsigned char is_mobile;
   uint16 city_index; //index of the city in the cities-array
+  int16 isp_index; //index of the isp in the isps-array  
 } IpRange;
 
 typedef struct{
@@ -46,10 +51,13 @@ typedef struct{
   unsigned int cities_count;  
   unsigned int max_cities_count;
 
-  
   char *cache_file_name; // a binary file to store the whole db.....
   IpRange * ranges;
   City * cities;
+
+  char isps[MAX_ISPS_COUNT][MAX_ISP_NAME_LENGTH]; // a fixed size array of strings should be enough here...do not expect the isps to grow dramatically..
+  uint16 isps_count; 
+
 
 } IPDB;
 
@@ -65,5 +73,11 @@ print_city(const City * e);
 void 
 benchmark_search(IPDB * db,int count);        
 
-IpRange* find_range_for_ip(IPDB *db, char *ip);
-City * find_city_for_ip_range(IPDB * db, IpRange* range); 
+IpRange*
+find_range_for_ip(IPDB *db, char *ip);
+
+City* 
+find_city_for_ip_range(IPDB * db, IpRange* range);
+
+char*
+find_isp_for_ip_range(IPDB * db, IpRange* range);

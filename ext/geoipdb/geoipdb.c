@@ -67,7 +67,7 @@ VALUE ipdb_init(VALUE self, VALUE cities_file_name, VALUE ranges_file_name, VALU
 }
 
      
-VALUE build_ip_information_object(IpRange *range, City *city) {
+VALUE build_ip_information_object(IpRange *range, City *city, char* isp) {
   VALUE CIpInformation;
   
   CIpInformation = rb_const_get(rb_cObject, rb_intern("IpInformation"));
@@ -79,7 +79,8 @@ VALUE build_ip_information_object(IpRange *range, City *city) {
   rb_ivar_set(ip_information, rb_intern("@lng"), rb_float_new(city->lng) );
   rb_ivar_set(ip_information, rb_intern("@lat"), rb_float_new(city->lat) );
   rb_ivar_set(ip_information, rb_intern("@is_mobile"), range->is_mobile == 1 ? Qtrue : Qfalse );
-  
+  rb_ivar_set(ip_information, rb_intern("@isp_name"), isp == NULL ? Qnil : ID2SYM( rb_intern(isp) ) );  
+
   return ip_information;
 }       
 
@@ -97,9 +98,10 @@ VALUE ipdb_information_for_ip(VALUE self, VALUE ip_string){
   City * city = find_city_for_ip_range(gi->db, ip_range);
   if(!city)
     return Qnil;                    
- 
-    
-  return build_ip_information_object(ip_range, city);
+  
+  char* isp = find_isp_for_ip_range(gi->db, ip_range);
+  
+  return build_ip_information_object(ip_range, city, isp);
 }
 
 void Init_geoipdb(void)

@@ -41,7 +41,14 @@ describe GeoIpDb do
     @db.information_for_ip("1.1.1.1").should be_mobile
   end 
   
+  it 'should return correct isp_name in ip_information' do
+    init_db           
+    @db.information_for_ip("1.0.0.1").isp_name.should == :vodafone
+    @db.information_for_ip("1.1.1.1").isp_name.should == "1vodafone2vodafone3vodafone4vodafone5vodafone1vodafone2vodafone3vodafone4vodafone5vodafone1vodafone2vodafone3vodafone4vodafone5vodafone1vodafone2vodafone3vodafone4vodafone5vodafone"[0..99].to_sym
+    @db.information_for_ip("1.2.1.1").isp_name.should == nil
+  end
 
+  it "should write and read the cachefile correctly"
   
   after :each do
     File.unlink CACHE_FILE if File.exist? CACHE_FILE

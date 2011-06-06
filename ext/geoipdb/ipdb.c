@@ -327,6 +327,41 @@ City * find_city_for_ip_range(IPDB * db, IpRange* range)
   return &(db->cities[range->city_index]);
 }
 
+char* find_isp_for_ip_range(IPDB * db, IpRange* range)
+{
+  if( range == NULL || range->isp_index < 0 || range->isp_index > MAX_ISPS_COUNT){
+    printf("Could not find isp for isp_index=%i", range->isp_index);
+    return NULL;
+  }
+  return db->isps[range->isp_index];
+}
+
+int16
+isp_index_by_name(IPDB * db, char* isp_name){
+  if(isp_name == NULL || isp_name == "")
+    return -1;
+  if( db->isps_count > 0){
+    int16 i = 0;
+    for( i = 0; i < db->isps_count; i++)
+    {
+      if( strcmp(db->isps[i], isp_name)==0)
+      {
+        return i;
+      }
+    }
+  }
+  // TODO: malloc more space if needed
+  // add new isp
+  if(db->isps_count < MAX_ISPS_COUNT){
+    int16 new_index = db->isps_count;
+    strncpy(db->isps[new_index], isp_name, MAX_ISP_NAME_LENGTH);
+    db->isps_count++;
+    return new_index;
+  }else{
+    printf("ERROR: MAX_ISPS_COUNT = %i limit reached - this should not happen!", MAX_ISPS_COUNT);
+    return -1;
+  }
+}
 
 
 
@@ -349,16 +384,29 @@ read_ranges_csv(IPDB * db){
     return;
   }
   char line[256];
-  char* from = NULL;
-  char* to = NULL;
-  char* city_code = NULL;         
-  char* con_type = NULL;
-  int invalid_cities_count = 0;
+  char* from;
+  char* to;
+  char* city_code;         
   int city_index;
+
+  char* con_type;
+	char* isp_name;
+  uint16 isp_index;
+
+  int invalid_cities_count = 0;
   
   IpRange* entry;
   db->ranges_count = 0;
-  while (fgets(line,sizeof(line),f) && db->ranges_count < db->max_ranges_count){
+  while (fgets(line, sizeof(line) ,f) && db->ranges_count < db->max_ranges_count){
+    from = NULL;
+    to = NULL;
+    city_code = NULL;
+    city_index = 0;
+
+    con_type = NULL;
+  	isp_name = NULL;
+    int16 isp_index = -1;
+
     if(DEBUG && db->ranges_count % 1000000 == 0)
       printf("Worked lines: %i\n", db->ranges_count);
 
@@ -366,9 +414,13 @@ read_ranges_csv(IPDB * db){
     to =        strtok(NULL, RANGES_DELIM);
     con_type =  strtok(NULL, RANGES_DELIM);
     city_code = strtok(NULL, RANGES_DELIM);
+    isp_name =  strtok(NULL, RANGES_DELIM);
+
     city_index = city_index_by_code(db, atoi(city_code));
+    isp_index = isp_index_by_name(db, isp_name);
+
     if(city_index < 0)
-    { 
+    {
       if(DEBUG)
         printf("Could not find city for code: %i", atoi(city_code));
       invalid_cities_count ++;
@@ -379,9 +431,9 @@ read_ranges_csv(IPDB * db){
       entry->to = ip_to_int(to);           
       entry->is_mobile = con_type_to_int(con_type);
       entry->city_index = city_index;
-      // printf("Line: %s", line);
-      // printf("from: %u,to: %u, city_code:%i \n",entry->from,entry->to,entry->city_code);
-      // db->ranges[i] = *entry;
+      entry->isp_index = isp_index;
+      
+      // printf("from: %u,to: %u, city_code:%s, city_index: %i\n",entry->from,entry->to,city_code, entry->city_index);
       // printf("working record nr: %li\n", db->ranges_count);
       db->ranges_count++;
     }
@@ -505,13 +557,20 @@ write_cache_file(IPDB * db){
     printf("FieldLength: %li\n",sizeof(db->ranges[0].from));    
   }
   //write the header: i.e.: numbers of records
-  fwrite(&(db->cities_count), sizeof(db->cities_count),1,f);  
+  fwrite(&(db->cities_count), sizeof(db->cities_count),1,f);
+  fwrite(&(db->isps_count), sizeof(db->isps_count),1,f);  
   fwrite(&(db->ranges_count), sizeof(db->ranges_count),1,f);
   
   if(DEBUG)
     printf("Writing Contents with %i cities, a %li bytes each, should = %li \n", db->cities_count, sizeof(City), db->cities_count * sizeof(City));  
   //write the actual data: all the ranges-array-buffer:
   objects_written = fwrite(db->cities, sizeof(City), db->cities_count, f);
+  
+  if(DEBUG)
+    printf("Writing Contents with %i isps, a %li bytes each, should = %li \n", db->isps_count, MAX_ISP_NAME_LENGTH, db->isps_count * MAX_ISP_NAME_LENGTH);  
+  //write the actual data: all the ranges-array-buffer:
+  objects_written += fwrite(db->isps, MAX_ISP_NAME_LENGTH, db->isps_count, f);
+  
   if(DEBUG)
     printf("Writing Contents with %i ranges, a %li bytes each, should = %li \n", db->ranges_count, sizeof(IpRange), db->ranges_count * sizeof(IpRange));  
   //write the actual data: all the ranges-array-buffer:
@@ -535,22 +594,28 @@ read_cache_file(IPDB * db){
     return 0;
   }
   int cities_header_read = fread(&(db->cities_count), sizeof(db->cities_count),1,f);
+  int isps_header_read = fread(&(db->isps_count), sizeof(db->isps_count),1,f);  
   int ranges_header_read = fread(&(db->ranges_count), sizeof(db->ranges_count),1,f);
 
   
-  if(cities_header_read == 0 || ranges_header_read == 0 || db->cities_count == 0 || db->ranges_count ==0 )
+  if(cities_header_read == 0 || isps_header_read == 0 || ranges_header_read == 0 || db->cities_count == 0 || db->isps_count ==0 || db->ranges_count ==0)
   {
     printf("Could not read Cities-Header from Cache-File: %s", db->cache_file_name);
     return 0;
   }
   if(DEBUG)  
-    printf("Reading DB-Header from Cache-File: %s, with %i cities and %i ranges\n",db->cache_file_name, db->cities_count, db->ranges_count);  
+    printf("Reading DB-Header from Cache-File: %s, with %i cities, %iisps and %i ranges\n",db->cache_file_name, db->cities_count, db->isps_count, db->ranges_count);  
 
   int objects_read = 0;
   if(DEBUG)
     printf("Allocating: %lu for cities-array \n", sizeof(City)*(db->cities_count));
   db->cities = malloc(sizeof(City) * db->cities_count);
   objects_read += fread(db->cities, sizeof(City),db->cities_count,f);
+
+  if(DEBUG)
+    printf("Reading in the isps into preallocated buffer of size: ", sizeof(db->isps));
+  objects_read += fread(db->isps, MAX_ISP_NAME_LENGTH, db->isps_count,f);
+
   if(DEBUG)
     printf("Allocating: %lu for ranges-array \n", sizeof(IpRange)*(db->ranges_count));
   db->ranges = malloc(sizeof(IpRange) * db->ranges_count);
@@ -581,6 +646,8 @@ benchmark_search(IPDB * db,int count){
 }
 
 IPDB * init_db(char * cities_csv_file, char * ranges_csv_file, char * cache_file_name){
+  if(DEBUG)
+    printf("Initializing db");
   IPDB *db;
   db = (IPDB*)malloc(sizeof(IPDB));
   if (db == NULL) //no memory left
@@ -593,6 +660,10 @@ IPDB * init_db(char * cities_csv_file, char * ranges_csv_file, char * cache_file
   db->max_cities_count = MAX_CITIES_COUNT;
   db->ranges_csv_file = ranges_csv_file;
   db->max_ranges_count = MAX_RANGES_COUNT;
+  
+  // db->isps = NULL;
+  // db->isps = malloc(MAX_ISP_NAME_LENGTH * MAX_ISPS_COUNT);  
+  db->isps_count = 0;
     
 
   if(USE_CACHE && read_cache_file(db) > 0){
