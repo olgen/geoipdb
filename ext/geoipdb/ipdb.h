@@ -28,7 +28,7 @@ typedef int int32;
 #define MAX_ISP_NAME_LENGTH 100
 
 #define USE_CACHE 1
-#define DEBUG 1
+#define DEBUG 0
 
 typedef struct{
   unsigned long from;
