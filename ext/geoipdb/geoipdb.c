@@ -42,9 +42,9 @@ VALUE ipdb_init(VALUE self, VALUE cities_file_name, VALUE ranges_file_name, VALU
   Check_Type(ranges_file_name, T_STRING);
   Check_Type(cache_file_name, T_STRING);
   
-  char *cities_csv_file = RSTRING(cities_file_name)->ptr;
-  char *ranges_csv_file = RSTRING(ranges_file_name)->ptr;
-  char *cache_file =      RSTRING(cache_file_name)->ptr;  
+  char *cities_csv_file = RSTRING_PTR(cities_file_name);
+  char *ranges_csv_file = RSTRING_PTR(ranges_file_name);
+  char *cache_file =      RSTRING_PTR(cache_file_name);  
   
   gi = ALLOC(geoipdb);
   

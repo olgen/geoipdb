@@ -11,6 +11,12 @@ typedef unsigned short uint16;
 typedef int int32;
 #endif
 
+#ifdef RSTRING_PTR
+#else
+# define RSTRING_LEN(x) (RSTRING(x)->len) 
+# define RSTRING_PTR(x) (RSTRING(x)->ptr) 
+#endif
+
 
 #define RANGES_DELIM ",\n"
 #define CITIES_DELIM ",\n"
