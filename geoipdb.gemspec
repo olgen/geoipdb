@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{geoipdb}
-  s.version = "0.2.1"
+  s.version = "0.3.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eugen Martin", "Martin Karlsch"]
-  s.date = %q{2011-03-13}
+  s.date = %q{2011-06-14}
   s.description = %q{Returns a GeoLocation and additional information for given IP. Reads Data from CSV-Files and uses internal binary caching.}
   s.email = %q{eugeniusmartinus@googlemail.com}
   s.extensions = ["ext/geoipdb/extconf.rb"]
@@ -38,12 +38,13 @@ Gem::Specification.new do |s|
     "sample_data/ip_ranges.csv",
     "sample_data/ip_ranges_corrupt.csv",
     "spec/geoipdb_spec.rb",
-    "spec/spec_helper.rb"
+    "spec/spec_helper.rb",
+    "test.rb"
   ]
   s.homepage = %q{http://github.com/madvertise/geoipdb}
   s.licenses = ["MIT"]
   s.require_paths = ["lib", "ext"]
-  s.rubygems_version = %q{1.5.2}
+  s.rubygems_version = %q{1.5.3}
   s.summary = %q{Fast (>3 Mio queries/sec!!!) GeoIpDb implementation for Ruby using C-Extensions.}
   s.test_files = [
     "spec/geoipdb_spec.rb",
