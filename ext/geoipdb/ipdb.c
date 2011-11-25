@@ -241,7 +241,7 @@ sort_cities(IPDB * db){
 
 
 int // returns a city-index
-city_index_by_code(IPDB * db, uint16 city_code){
+city_index_by_code(IPDB * db, int city_code){
   City *search, *result;
   search = malloc(sizeof(City));
   search->city_code = city_code;

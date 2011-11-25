@@ -39,7 +39,7 @@ typedef struct{
 } IpRange;
 
 typedef struct{
-  uint16 city_code; //city codes are not larger than 2**16 = 65536
+  int city_code;
   char name[32];
   double lat;
   double lng;
