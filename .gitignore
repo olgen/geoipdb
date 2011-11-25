@@ -42,8 +42,8 @@ pkg
 #*.swp
 Gemfile.lock
 ext/Makefile
-ext/geoipdb.bundle
-ext/geoipdb.o
-ext/ipdb.o
-ext/test.o
-ext/test
+ext/geoipdb/geoipdb.bundle
+ext/geoipdb/geoipdb.o
+ext/geoipdb/ipdb.o
+ext/geoipdb/test.o
+ext/geoipdb/test
