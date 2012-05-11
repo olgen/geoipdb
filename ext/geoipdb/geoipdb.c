@@ -13,22 +13,18 @@ static VALUE cIpDb;
 
 // free the memory used by the db, called by the Ruby-GC
 void geoipdb_free(geoipdb *gi) {
-  printf("Freeing memory for the GeoIpDb.. \n");
   if(gi == NULL)
     return;
   if (gi->db != NULL){
     if(gi->db->cities != NULL ){
-      printf("..freeing cities \n");
       free(gi->db->cities);
       gi->db->cities = NULL;
     }
     if(gi->db->ranges != NULL ){
-      printf("..freeing ranges \n");
       free(gi->db->ranges);
       gi->db->ranges = NULL;
     }
     if(gi->db != NULL){
-      printf("..freeing ipdb \n");
       free(gi->db);
     }
   }
@@ -49,7 +45,6 @@ VALUE ipdb_init(VALUE self, VALUE cities_file_name, VALUE ranges_file_name, VALU
   gi = ALLOC(geoipdb);
 
   gi->db= init_db(cities_csv_file, ranges_csv_file, cache_file);
-
 
   if(gi->db == NULL)
   {

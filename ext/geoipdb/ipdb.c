@@ -95,8 +95,6 @@ print_cities(IPDB * db){
   }
 }
 
-
-
 void print_stats(IPDB * db){
   printf("DB STATS: \n");
   printf("\tCities: %i\n", db->cities_count);
@@ -181,12 +179,6 @@ int compare_ranges(const void *fa, const void *fb) {
   const IpRange *a = (IpRange *) fa;
   const IpRange *b = (IpRange *) fb;
 
-  // printf("\tComparing: a:");
-  // print_range(a);
-  // printf(" with b:");
-  // print_range(b);
-  // printf("\n");
-
   if(a->from>0 && a->to>0 && b->from>0 && b->to>0){ //regular case: both entries are ranges
     if(a->to  <  b->from)    {
       return -1;
@@ -256,11 +248,8 @@ city_index_by_code(IPDB * db, int city_code){
       printf("Could not find searched city with code: %i \n", city_code);
     return -1;
   }else{
-    // printf("Found result: \t");
-    // print_city(result);
     int index;
     index = (result - db->cities);
-    // printf("Found index: %i\n", index);
     return index;
   }
 }
@@ -350,7 +339,6 @@ isp_index_by_name(IPDB * db, char* isp_name){
       }
     }
   }
-  // TODO: malloc more space if needed
   // add new isp
   if(db->isps_count < MAX_ISPS_COUNT){
     int16 new_index = db->isps_count;
@@ -433,8 +421,6 @@ read_ranges_csv(IPDB * db){
       entry->city_index = city_index;
       entry->isp_index = isp_index;
 
-      // printf("from: %u,to: %u, city_code:%s, city_index: %i\n",entry->from,entry->to,city_code, entry->city_index);
-      // printf("working record nr: %li\n", db->ranges_count);
       db->ranges_count++;
     }
   }
@@ -453,13 +439,11 @@ iso2_code(char* iso3){
   int i = 0;
   for( i = 0; i < num_countries; i++)
   {
-    // printf("Trying cmp of %s and %s...", iso3, country_iso3_codes[i]);
     if(  strcmp(country_iso3_codes[i],iso3)==0)
     {
       return (char*) country_iso2_codes[i];
     }
   }
-  // printf("Could not find iso2 code for iso3: %s, using: '%s' \n", iso3, country_iso2_codes[0]);
   return (char*) country_iso2_codes[0];
 }
 
@@ -496,7 +480,6 @@ read_cities_csv(IPDB * db){
     {
       printf("Worked lines: %i\n", i);
     }
-   // printf("Line: %s", line);
    // COUNTRY,REGION,CITY-NAME,METRO-CODE,CITY-CODE,LATITUDE,LONGITUDE
     country =    strtok(line, CITIES_DELIM);
     region =     strtok(NULL, CITIES_DELIM);
@@ -510,7 +493,6 @@ read_cities_csv(IPDB * db){
 
     strncpy(entry->country_iso3, country, strlen(country));
 
-    // entry->country_iso2 = iso2_code(entry->country_iso3);
     strncpy(entry->country_iso2, iso2_code(country), 2);
     strncpy(entry->name, name, strlen(name));
 
@@ -522,8 +504,6 @@ read_cities_csv(IPDB * db){
   if(DEBUG)
     printf("\n Parsing of %i records needed %.6lf seconds\n", db->cities_count, get_time(&tim)-t1);
 }
-
-
 
 /**
 cache-file is an exact binary copy of the ranges+cities-arrays from memory,
@@ -661,10 +641,7 @@ IPDB * init_db(char * cities_csv_file, char * ranges_csv_file, char * cache_file
   db->ranges_csv_file = ranges_csv_file;
   db->max_ranges_count = MAX_RANGES_COUNT;
 
-  // db->isps = NULL;
-  // db->isps = malloc(MAX_ISP_NAME_LENGTH * MAX_ISPS_COUNT);
   db->isps_count = 0;
-
 
   if(USE_CACHE && read_cache_file(db) > 0){
     if(DEBUG)
@@ -673,14 +650,12 @@ IPDB * init_db(char * cities_csv_file, char * ranges_csv_file, char * cache_file
     if(DEBUG)
       printf("Initializing IPDB from CSV-file: %s \n", db->ranges_csv_file);
     read_cities_csv(db);
-    // print_cities(db);
     if(db->cities_count == 0)
     {
       return NULL;
     }
     sort_cities(db);
     read_ranges_csv(db);
-    // //TODO: sort ranges
     if(db!=NULL && db->ranges_count > 0 && USE_CACHE)
     {
       if(DEBUG)

@@ -1,4 +1,3 @@
-
 #ifdef INT_2_BYTES
 typedef char int8;
 typedef int int16;
@@ -16,7 +15,6 @@ typedef int int32;
 # define RSTRING_LEN(x) (RSTRING(x)->len)
 # define RSTRING_PTR(x) (RSTRING(x)->ptr)
 #endif
-
 
 #define RANGES_DELIM ",\n"
 #define CITIES_DELIM ",\n"
@@ -67,11 +65,8 @@ typedef struct{
 
 } IPDB;
 
-
-// "publicly" visible functions
 IPDB *
 init_db(char * cities_csv_file, char * ranges_csv_file, char * cache_file_name);
-
 
 void
 print_city(const City * e);
