@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = "geoipdb"
-  s.version = "0.4.1"
+  s.version = "0.4.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eugen Martin", "Martin Karlsch"]
-  s.date = "2011-11-25"
+  s.date = "2012-05-11"
   s.description = "Returns a GeoLocation and additional information for given IP. Reads Data from CSV-Files and uses internal binary caching."
   s.email = "eugeniusmartinus@googlemail.com"
   s.extensions = ["ext/geoipdb/extconf.rb"]
