@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'bundler'
+
 begin
   Bundler.setup(:default, :development)
 rescue Bundler::BundlerError => e
@@ -24,6 +25,12 @@ Jeweler::Tasks.new do |gem|
    
 end
 Jeweler::RubygemsDotOrgTasks.new
+
+require 'rake/javaextensiontask'
+
+Rake::JavaExtensionTask.new('geoipdb') do |ext| # not yet functional
+  ext.ext_dir = 'ext/java/src'
+end
 
 require 'rspec/core'
 require 'rspec/core/rake_task'

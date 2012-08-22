@@ -17,12 +17,18 @@ describe GeoIpDb do
     GeoIpDb.init( './sample_data/bla.csv', './sample_data/blubb.csv', CACHE_FILE ).should be_nil
   end
   
-  it "should init correctly with sample data and create the cache-file" do
+  it "should init correctly with sample data" do
     init_db
     @db.should_not be_nil
-    File.exist?(CACHE_FILE).should be_true
   end
   
+  unless defined? JRUBY_VERSION
+    it "initializes cache_file correctly with sample data" do
+      init_db
+      File.exist?(CACHE_FILE).should be_true
+    end
+  end
+
   it "sould find the sample cities correcty" do 
     init_db
     #afg,no region,kabul,-1,3,34.5167,69.1833

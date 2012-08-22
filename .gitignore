@@ -47,3 +47,7 @@ ext/geoipdb/geoipdb.o
 ext/geoipdb/ipdb.o
 ext/geoipdb/test.o
 ext/geoipdb/test
+*.jar
+tags
+*.class
+*build
