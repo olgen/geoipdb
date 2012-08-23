@@ -1,5 +1,8 @@
-import java.util.Collections;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class JGeoIpDb {
   public static final boolean USE_CACHE = false;  // no cache support for now
@@ -29,30 +32,35 @@ public class JGeoIpDb {
   }
 
   public IpRange find_range_for_ip(String ip) {
-    if (ranges.length == 0) {
+    if (ranges.isEmpty()) {
       System.out.println("ERROR: DB has no ranges data. Can not search!");
       return null;
     }
 
     int index = 0;
-    IpRange search = new IpRange(ip, "0", 0, 0, false);
+    IpRange search = new IpRange(ip, "0");
     index = Collections.binarySearch(ranges, search);
+    if (index < 0)
+      return null;
 
-    return ranges[index];
+    return ranges.get(index);
   }
 
   public City find_city_for_ip_range(IpRange range) {
-    if (cities.length == 0) {
+    if (cities.isEmpty()) {
       System.out.println("ERROR: DB has no city data. Can not search!");
       return null;
     }
 
     if (range.city_code == 0) {
       System.out.format("ERROR: Could not find city with index: %d\n", range.city_code);
-      return null;
     }
 
     return cities.get(range.city_code);
+  }
+
+  public ArrayList<IpRange> get_ranges() {
+    return ranges;
   }
 
   private boolean read_cache_file() {
@@ -72,7 +80,7 @@ public class JGeoIpDb {
     reader.readLine(); // skip first line
 
     while ((line = reader.readLine()) != null) {
-      if (cities.length >= MAX_CITY_COUNT){
+      if (cities.size() >= MAX_CITY_COUNT){
         System.out.format("ERROR: MAX_CITY_COUNT = %d limit reached - mek it bigger  :-(\n", MAX_CITY_COUNT);
         return;
       }
@@ -84,7 +92,6 @@ public class JGeoIpDb {
   private void read_ranges_csv(String file_name) throws FileNotFoundException {
     CsvReader reader = new CsvReader(file_name);
     String[] line = null;
-    int isp_index;
 
     reader.readLine(); // skip first line
 
@@ -92,13 +99,12 @@ public class JGeoIpDb {
       if (line.length < 5)
         continue;
 
-      if (range_count >= MAX_RANGE_COUNT){
+      if (ranges.size() >= MAX_RANGE_COUNT){
         System.out.format("ERROR: MAX_RANGE_COUNT = %d limit reached - mek it bigger  :-(\n", MAX_RANGE_COUNT);
         return;
       }
 
-      isp_index = isp_index_by_name(line[4]);
-      ranges.add(new IpRange(line, isp_index));
+      ranges.add(new IpRange(line));
     }
   }
 
@@ -106,16 +112,15 @@ public class JGeoIpDb {
     if ((isp_name == null) || isp_name.equals(""))
       return -1;
 
-    if (isp_count != 0) {
-      for (int index = 0; index < isp_count; index++) {
-        if (isps[index].equals(isp_name))
+    if (!isps.isEmpty()) {
+      int index = Collections.binarySearch(isps, isp_name);
+      if (index >= 0)
           return index;
       }
-    }
 
-    if (isp_count < MAX_ISP_COUNT) {
-      isps[isp_count++] = isp_name;
-      return isp_count - 1;
+    if (isps.size() < MAX_ISP_COUNT) {
+      isps.add(isp_name);
+      return isps.size() - 1;
     } else {
       System.out.format("ERROR: MAX_ISP_COUNT = %d limit reached - mek it bigger  :-(\n", MAX_ISP_COUNT);
       return -1;

@@ -20,7 +20,7 @@ class GeoIpDb
     city = @jdb.find_city_for_ip_range(range)
     return nil unless city
 
-    isp = @jdb.find_isp_for_ip_range(range)
+    isp = range.isp_name
     build_ip_information_object(range, city, isp)
   end
 
@@ -33,7 +33,7 @@ class GeoIpDb
     info.lng = city.lng
     info.lat = city.lat
     info.is_mobile  = range.is_mobile
-    info.isp_name = isp
+    info.isp_name = isp && isp.to_sym
 
     info
   end

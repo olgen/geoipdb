@@ -6,7 +6,8 @@ public class City implements Comparable<City> {
   String country_iso3;
   String country_iso2;
 
-  public static final String[] country_iso2_codes = { "--","ap","eu","ad","ae","af","ag","ai","al","am","an",
+
+public static final String[] country_iso2_codes = { "--","ap","eu","ad","ae","af","ag","ai","al","am","an",
                             "ao","aq","ar","as","at","au","aw","az","ba","bb",
                             "bd","be","bf","bg","bh","bi","bj","bm","bn","bo",
                             "br","bs","bt","bv","bw","by","bz","ca","cc","cd",
@@ -72,7 +73,7 @@ public class City implements Comparable<City> {
   private String iso2_code(String iso3_code) {
     int index = 0;
     for (index = 0; index < country_iso3_codes.length; index++) {
-      if (country_iso3_codes[index] == iso3_code) {
+      if (country_iso3_codes[index].equals(iso3_code)) {
         return country_iso2_codes[index];
       }
     }
@@ -83,4 +84,27 @@ public class City implements Comparable<City> {
   public int compareTo(City other) {
     return this.city_code - other.city_code;
   }
+  public int getCity_code() {
+		return city_code;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public double getLat() {
+		return lat;
+	}
+
+	public double getLng() {
+		return lng;
+	}
+
+	public String getCountry_iso3() {
+		return country_iso3;
+	}
+
+	public String getCountry_iso2() {
+		return country_iso2;
+	}
 }

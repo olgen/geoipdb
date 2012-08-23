@@ -7,11 +7,7 @@ public class CsvReader {
   private BufferedReader reader = null;
 
   public CsvReader(String file_name) throws FileNotFoundException {
-    //try {
-      reader = new BufferedReader(new FileReader(file_name));
-    //} catch (FileNotFoundException e) {
-      //System.out.format("Could not load file: %s", file_name);
-    //}
+    reader = new BufferedReader(new FileReader(file_name));
   }
 
   public String[] readLine() {
