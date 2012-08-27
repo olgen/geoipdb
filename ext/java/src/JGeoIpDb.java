@@ -2,13 +2,12 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 
 public class JGeoIpDb {
   public static final boolean USE_CACHE = false;  // no cache support for now
   private static final int MAX_ISP_COUNT = 65535;
   private static final int MAX_CITY_COUNT = 1000000;
-  private static final int MAX_RANGE_COUNT = 1000;
+  private static final int MAX_RANGE_COUNT = 10000000;
 
   String cache_file_name;
 
@@ -47,6 +46,10 @@ public class JGeoIpDb {
   }
 
   public City find_city_for_ip_range(IpRange range) {
+    if (range == null) {
+        System.out.println("Cannot find city for no given range, right?");
+        return null;
+    }
     if (cities.isEmpty()) {
       System.out.println("ERROR: DB has no city data. Can not search!");
       return null;

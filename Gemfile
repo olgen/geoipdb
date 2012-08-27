@@ -1,6 +1,7 @@
 source :rubygems
 
 group :development, :test do
+  gem 'ruby-debug'
   gem "rake-compiler"
   gem "bundler"
   gem "rspec"
