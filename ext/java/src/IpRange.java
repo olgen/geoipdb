@@ -1,4 +1,3 @@
-
 public class IpRange implements Comparable<IpRange>{
   int from;
   int to;
@@ -18,30 +17,30 @@ public class IpRange implements Comparable<IpRange>{
   }
 
   public int getCity_code() {
-	return city_code;
-}
+    return city_code;
+  }
 
-public void setCity_code(int city_code) {
-	this.city_code = city_code;
-}
+  public void setCity_code(int city_code) {
+      this.city_code = city_code;
+  }
 
-public int getFrom() {
-	return from;
-}
+  public int getFrom() {
+      return from;
+  }
 
-public int getTo() {
-	return to;
-}
+  public int getTo() {
+      return to;
+  }
 
-public boolean isIs_mobile() {
-	return is_mobile;
-}
+  public boolean isIs_mobile() {
+      return is_mobile;
+  }
 
-public String getIsp_name() {
-	return isp_name;
-}
+  public String getIsp_name() {
+      return isp_name;
+  }
 
-public IpRange(String from, String to) {
+    public IpRange(String from, String to) {
     this.from = ip_to_int(from);
     this.to = ip_to_int(to);
   }
@@ -54,7 +53,7 @@ public IpRange(String from, String to) {
     return to;
   }
   public String get_isp_name(){
-	  return isp_name;
+      return isp_name;
   }
 
   private boolean con_type_to_bool(String con_type) {
@@ -68,11 +67,11 @@ public IpRange(String from, String to) {
     String[] addr_array;
 
     if (!(ip == null || ip.equals(""))) {
-        addr_array = ip.split("\\.");
-          for (octet_count = 0; octet_count < addr_array.length; octet_count++) {
-            power = 3 - octet_count;
-            result += ((Integer.parseInt(addr_array[octet_count]) % 256 * Math.pow(256, power)));
-          }
+      addr_array = ip.split("\\.");
+        for (octet_count = 0; octet_count < addr_array.length; octet_count++) {
+          power = 3 - octet_count;
+          result += ((Integer.parseInt(addr_array[octet_count]) % 256 * Math.pow(256, power)));
+        }
     }
 
     return result;

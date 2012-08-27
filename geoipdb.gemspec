@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.version = "0.4.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
-  s.authors = ["Eugen Martin", "Martin Karlsch"]
-  s.date = "2012-05-11"
+  s.authors = ["Eugen Martin", "Martin Karlsch", "Thomas Hirsch"]
+  s.date = "2012-08-27"
   s.description = "Returns a GeoLocation and additional information for given IP. Reads Data from CSV-Files and uses internal binary caching."
   s.email = "eugeniusmartinus@googlemail.com"
   s.extensions = ["ext/geoipdb/extconf.rb"]
@@ -19,7 +19,9 @@ Gem::Specification.new do |s|
   ]
   s.files = [
     ".document",
+    ".jrubyrc",
     ".rspec",
+    ".rvmrc",
     "Gemfile",
     "LICENSE.txt",
     "README.markdown",
@@ -31,8 +33,14 @@ Gem::Specification.new do |s|
     "ext/geoipdb/geoipdb.c",
     "ext/geoipdb/ipdb.c",
     "ext/geoipdb/ipdb.h",
+    "ext/java/src/City.java",
+    "ext/java/src/CsvReader.java",
+    "ext/java/src/IpRange.java",
+    "ext/java/src/JGeoIpDb.java",
     "geoipdb.gemspec",
     "lib/geoipdb.rb",
+    "lib/ip_information.rb",
+    "lib/jgeoipdb.rb",
     "sample_data/cities.csv",
     "sample_data/citiess_corrupt.csv",
     "sample_data/ip_ranges.csv",
@@ -44,32 +52,34 @@ Gem::Specification.new do |s|
   s.homepage = "http://github.com/madvertise/geoipdb"
   s.licenses = ["MIT"]
   s.require_paths = ["lib", "ext"]
-  s.rubygems_version = "1.8.10"
+  s.rubygems_version = "1.8.24"
   s.summary = "Fast (>3 Mio queries/sec!!!) GeoIpDb implementation for Ruby using C-Extensions."
-  s.test_files = [
-    "spec/geoipdb_spec.rb",
-    "spec/spec_helper.rb"
-  ]
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_development_dependency(%q<rspec>, ["~> 2.1.0"])
-      s.add_development_dependency(%q<bundler>, ["~> 1.0.0"])
-      s.add_development_dependency(%q<jeweler>, ["~> 1.5.1"])
-      s.add_development_dependency(%q<rcov>, [">= 0"])
+      s.add_development_dependency(%q<ruby-debug>, [">= 0"])
+      s.add_development_dependency(%q<rake-compiler>, [">= 0"])
+      s.add_development_dependency(%q<bundler>, [">= 0"])
+      s.add_development_dependency(%q<rspec>, [">= 0"])
+      s.add_development_dependency(%q<jeweler>, [">= 0"])
+      s.add_development_dependency(%q<rcov>, [">= 0", "~> 0.9.11"])
     else
-      s.add_dependency(%q<rspec>, ["~> 2.1.0"])
-      s.add_dependency(%q<bundler>, ["~> 1.0.0"])
-      s.add_dependency(%q<jeweler>, ["~> 1.5.1"])
-      s.add_dependency(%q<rcov>, [">= 0"])
+      s.add_dependency(%q<ruby-debug>, [">= 0"])
+      s.add_dependency(%q<rake-compiler>, [">= 0"])
+      s.add_dependency(%q<bundler>, [">= 0"])
+      s.add_dependency(%q<rspec>, [">= 0"])
+      s.add_dependency(%q<jeweler>, [">= 0"])
+      s.add_dependency(%q<rcov>, [">= 0", "~> 0.9.11"])
     end
   else
-    s.add_dependency(%q<rspec>, ["~> 2.1.0"])
-    s.add_dependency(%q<bundler>, ["~> 1.0.0"])
-    s.add_dependency(%q<jeweler>, ["~> 1.5.1"])
-    s.add_dependency(%q<rcov>, [">= 0"])
+    s.add_dependency(%q<ruby-debug>, [">= 0"])
+    s.add_dependency(%q<rake-compiler>, [">= 0"])
+    s.add_dependency(%q<bundler>, [">= 0"])
+    s.add_dependency(%q<rspec>, [">= 0"])
+    s.add_dependency(%q<jeweler>, [">= 0"])
+    s.add_dependency(%q<rcov>, [">= 0", "~> 0.9.11"])
   end
 end
 

@@ -19,16 +19,14 @@ Jeweler::Tasks.new do |gem|
   gem.summary = %Q{Fast (>3 Mio queries/sec!!!) GeoIpDb implementation for Ruby using C-Extensions.}
   gem.description = %Q{Returns a GeoLocation and additional information for given IP. Reads Data from CSV-Files and uses internal binary caching.}
   gem.email = "eugeniusmartinus@googlemail.com"
-  gem.authors = ["Eugen Martin", "Martin Karlsch"]
-  gem.extensions   = ['ext/geoipdb/extconf.rb']
+  gem.extensions   = ['ext/geoipdb/extconf.rb'] 
   gem.require_paths = ["lib","ext"]
-   
 end
 Jeweler::RubygemsDotOrgTasks.new
 
 require 'rake/javaextensiontask'
 
-Rake::JavaExtensionTask.new('geoipdb') do |ext| # not yet functional
+Rake::JavaExtensionTask.new('geoipdb') do |ext|
   ext.ext_dir = 'ext/java/src'
 end
 

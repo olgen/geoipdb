@@ -4,30 +4,22 @@ import java.util.Collections;
 import java.util.HashMap;
 
 public class JGeoIpDb {
-  public static final boolean USE_CACHE = false;  // no cache support for now
-  private static final int MAX_ISP_COUNT = 65535;
   private static final int MAX_CITY_COUNT = 1000000;
   private static final int MAX_RANGE_COUNT = 10000000;
-
-  String cache_file_name;
 
   HashMap<Integer, City> cities;
   ArrayList<String> isps;
   ArrayList<IpRange> ranges;
 
-  public JGeoIpDb(String cities_file_name, String ranges_file_name, String cache_file_name) throws FileNotFoundException {
+  public JGeoIpDb(String cities_file_name, String ranges_file_name) throws FileNotFoundException {
     cities = new HashMap<Integer, City>();
     isps = new ArrayList<String>();
     ranges = new ArrayList<IpRange>();
 
-    if (USE_CACHE && read_cache_file()) {
-      System.out.format("Loaded DB from Cache-File with %d");
-    } else {
-      read_cities_csv(cities_file_name);
-      read_ranges_csv(ranges_file_name);
-      if (USE_CACHE)
-        write_cache_file();
-    }
+    System.out.println("Parsing GeoIpDatabase. This takes approximately 30s...");
+
+    read_cities_csv(cities_file_name);
+    read_ranges_csv(ranges_file_name);
   }
 
   public IpRange find_range_for_ip(String ip) {
@@ -66,15 +58,6 @@ public class JGeoIpDb {
     return ranges;
   }
 
-  private boolean read_cache_file() {
-    // TODO
-    return false;
-  }
-
-  private void write_cache_file() {
-    // TODO
-  }
-
   private void read_cities_csv(String file_name) throws FileNotFoundException {
     CsvReader reader = new CsvReader(file_name);
     String[] line = null;
@@ -108,25 +91,6 @@ public class JGeoIpDb {
       }
 
       ranges.add(new IpRange(line));
-    }
-  }
-
-  private int isp_index_by_name(String isp_name) {
-    if ((isp_name == null) || isp_name.equals(""))
-      return -1;
-
-    if (!isps.isEmpty()) {
-      int index = Collections.binarySearch(isps, isp_name);
-      if (index >= 0)
-          return index;
-      }
-
-    if (isps.size() < MAX_ISP_COUNT) {
-      isps.add(isp_name);
-      return isps.size() - 1;
-    } else {
-      System.out.format("ERROR: MAX_ISP_COUNT = %d limit reached - mek it bigger  :-(\n", MAX_ISP_COUNT);
-      return -1;
     }
   }
 }

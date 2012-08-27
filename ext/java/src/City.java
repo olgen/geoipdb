@@ -85,26 +85,26 @@ public static final String[] country_iso2_codes = { "--","ap","eu","ad","ae","af
     return this.city_code - other.city_code;
   }
   public int getCity_code() {
-		return city_code;
-	}
+        return city_code;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public double getLat() {
-		return lat;
-	}
+    public double getLat() {
+        return lat;
+    }
 
-	public double getLng() {
-		return lng;
-	}
+    public double getLng() {
+        return lng;
+    }
 
-	public String getCountry_iso3() {
-		return country_iso3;
-	}
+    public String getCountry_iso3() {
+        return country_iso3;
+    }
 
-	public String getCountry_iso2() {
-		return country_iso2;
-	}
+    public String getCountry_iso2() {
+        return country_iso2;
+    }
 }
