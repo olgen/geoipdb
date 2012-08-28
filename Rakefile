@@ -21,6 +21,7 @@ Jeweler::Tasks.new do |gem|
   gem.email = "eugeniusmartinus@googlemail.com"
   gem.extensions   = ['ext/geoipdb/extconf.rb'] 
   gem.require_paths = ["lib","ext"]
+  gem.authors = ["Eugen Martin", "Martin Karlsch", "Thomas Hirsch"]
 end
 Jeweler::RubygemsDotOrgTasks.new
 

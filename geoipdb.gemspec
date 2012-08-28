@@ -5,14 +5,15 @@
 
 Gem::Specification.new do |s|
   s.name = "geoipdb"
-  s.version = "0.4.2"
+  s.version = "0.5.0"
+  s.platform = "java"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Eugen Martin", "Martin Karlsch", "Thomas Hirsch"]
-  s.date = "2012-08-27"
+  s.date = "2012-08-28"
   s.description = "Returns a GeoLocation and additional information for given IP. Reads Data from CSV-Files and uses internal binary caching."
   s.email = "eugeniusmartinus@googlemail.com"
-  s.extensions = ["ext/geoipdb/extconf.rb"]
+  s.extensions = ["ext/java"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
     "README.markdown"
@@ -27,9 +28,7 @@ Gem::Specification.new do |s|
     "README.markdown",
     "Rakefile",
     "VERSION",
-    "ext/geoipdb/Makefile",
     "ext/geoipdb/build.sh",
-    "ext/geoipdb/extconf.rb",
     "ext/geoipdb/geoipdb.c",
     "ext/geoipdb/ipdb.c",
     "ext/geoipdb/ipdb.h",
