@@ -7,59 +7,59 @@
 #include <sys/time.h>
 
 const char country_iso2_codes[253][3] = { "--","ap","eu","ad","ae","af","ag","ai","al","am","an",
-	"ao","aq","ar","as","at","au","aw","az","ba","bb",
-	"bd","be","bf","bg","bh","bi","bj","bm","bn","bo",
-	"br","bs","bt","bv","bw","by","bz","ca","cc","cd",
-	"cf","cg","ch","ci","ck","cl","cm","cn","co","cr",
-	"cu","cv","cx","cy","cz","de","dj","dk","dm","do",
-	"dz","ec","ee","eg","eh","er","es","et","fi","fj",
-	"fk","fm","fo","fr","fx","ga","gb","gd","ge","gf",
-	"gh","gi","gl","gm","gn","gp","gq","gr","gs","gt",
-	"gu","gw","gy","hk","hm","hn","hr","ht","hu","id",
-	"ie","il","in","io","iq","ir","is","it","jm","jo",
-	"jp","ke","kg","kh","ki","km","kn","kp","kr","kw",
-	"ky","kz","la","lb","lc","li","lk","lr","ls","lt",
-	"lu","lv","ly","ma","mc","md","mg","mh","mk","ml",
-	"mm","mn","mo","mp","mq","mr","ms","mt","mu","mv",
-	"mw","mx","my","mz","na","nc","ne","nf","ng","ni",
-	"nl","no","np","nr","nu","nz","om","pa","pe","pf",
-	"pg","ph","pk","pl","pm","pn","pr","ps","pt","pw",
-	"py","qa","re","ro","ru","rw","sa","sb","sc","sd",
-	"se","sg","sh","si","sj","sk","sl","sm","sn","so",
-	"sr","st","sv","sy","sz","tc","td","tf","tg","th",
-	"tj","tk","tm","tn","to","tl","tr","tt","tv","tw",
-	"tz","ua","ug","um","us","uy","uz","va","vc","ve",
-	"vg","vi","vn","vu","wf","ws","ye","yt","rs","za",
-	"zm","me","zw","a1","a2","o1","ax","gg","im","je",
+  "ao","aq","ar","as","at","au","aw","az","ba","bb",
+  "bd","be","bf","bg","bh","bi","bj","bm","bn","bo",
+  "br","bs","bt","bv","bw","by","bz","ca","cc","cd",
+  "cf","cg","ch","ci","ck","cl","cm","cn","co","cr",
+  "cu","cv","cx","cy","cz","de","dj","dk","dm","do",
+  "dz","ec","ee","eg","eh","er","es","et","fi","fj",
+  "fk","fm","fo","fr","fx","ga","gb","gd","ge","gf",
+  "gh","gi","gl","gm","gn","gp","gq","gr","gs","gt",
+  "gu","gw","gy","hk","hm","hn","hr","ht","hu","id",
+  "ie","il","in","io","iq","ir","is","it","jm","jo",
+  "jp","ke","kg","kh","ki","km","kn","kp","kr","kw",
+  "ky","kz","la","lb","lc","li","lk","lr","ls","lt",
+  "lu","lv","ly","ma","mc","md","mg","mh","mk","ml",
+  "mm","mn","mo","mp","mq","mr","ms","mt","mu","mv",
+  "mw","mx","my","mz","na","nc","ne","nf","ng","ni",
+  "nl","no","np","nr","nu","nz","om","pa","pe","pf",
+  "pg","ph","pk","pl","pm","pn","pr","ps","pt","pw",
+  "py","qa","re","ro","ru","rw","sa","sb","sc","sd",
+  "se","sg","sh","si","sj","sk","sl","sm","sn","so",
+  "sr","st","sv","sy","sz","tc","td","tf","tg","th",
+  "tj","tk","tm","tn","to","tl","tr","tt","tv","tw",
+  "tz","ua","ug","um","us","uy","uz","va","vc","ve",
+  "vg","vi","vn","vu","wf","ws","ye","yt","rs","za",
+  "zm","me","zw","a1","a2","o1","ax","gg","im","je",
   "bl","mf"};
 
 static const unsigned num_countries = (unsigned)(sizeof(country_iso2_codes)/sizeof(country_iso2_codes[0]));
 
 const char country_iso3_codes[253][4] = { "--","ap","eu","and","are","afg","atg","aia","alb","arm","ant",
-	"ago","aq","arg","asm","aut","aus","abw","aze","bih","brb",
-	"bgd","bel","bfa","bgr","bhr","bdi","ben","bmu","brn","bol",
-	"bra","bhs","btn","bv","bwa","blr","blz","can","cc","cod",
-	"caf","cog","che","civ","cok","chl","cmr","chn","col","cri",
-	"cub","cpv","cx","cyp","cze","deu","dji","dnk","dma","dom",
-	"dza","ecu","est","egy","esh","eri","esp","eth","fin","fji",
-	"flk","fsm","fro","fra","fx","gab","gbr","grd","geo","guf",
-	"gha","gib","grl","gmb","gin","glp","gnq","grc","gs","gtm",
-	"gum","gnb","guy","hkg","hm","hnd","hrv","hti","hun","idn",
-	"irl","isr","ind","io","irq","irn","isl","ita","jam","jor",
-	"jpn","ken","kgz","khm","kir","com","kna","prk","kor","kwt",
-	"cym","kaz","lao","lbn","lca","lie","lka","lbr","lso","ltu",
-	"lux","lva","lby","mar","mco","mda","mdg","mhl","mkd","mli",
-	"mmr","mng","mac","mnp","mtq","mrt","msr","mlt","mus","mdv",
-	"mwi","mex","mys","moz","nam","ncl","ner","nfk","nga","nic",
-	"nld","nor","npl","nru","niu","nzl","omn","pan","per","pyf",
-	"png","phl","pak","pol","spm","pcn","pri","pse","prt","plw",
-	"pry","qat","reu","rou","rus","rwa","sau","slb","syc","sdn",
-	"swe","sgp","shn","svn","sjm","svk","sle","smr","sen","som",
-	"sur","stp","slv","syr","swz","tca","tcd","tf","tgo","tha",
-	"tjk","tkl","tkm","tun","ton","tls","tur","tto","tuv","twn",
-	"tza","ukr","uga","um","usa","ury","uzb","vat","vct","ven",
-	"vgb","vir","vnm","vut","wlf","wsm","yem","yt","srb","zaf",
-	"zmb","mne","zwe","a1","a2","o1","ala","ggy","imn","jey",
+  "ago","aq","arg","asm","aut","aus","abw","aze","bih","brb",
+  "bgd","bel","bfa","bgr","bhr","bdi","ben","bmu","brn","bol",
+  "bra","bhs","btn","bv","bwa","blr","blz","can","cc","cod",
+  "caf","cog","che","civ","cok","chl","cmr","chn","col","cri",
+  "cub","cpv","cx","cyp","cze","deu","dji","dnk","dma","dom",
+  "dza","ecu","est","egy","esh","eri","esp","eth","fin","fji",
+  "flk","fsm","fro","fra","fx","gab","gbr","grd","geo","guf",
+  "gha","gib","grl","gmb","gin","glp","gnq","grc","gs","gtm",
+  "gum","gnb","guy","hkg","hm","hnd","hrv","hti","hun","idn",
+  "irl","isr","ind","io","irq","irn","isl","ita","jam","jor",
+  "jpn","ken","kgz","khm","kir","com","kna","prk","kor","kwt",
+  "cym","kaz","lao","lbn","lca","lie","lka","lbr","lso","ltu",
+  "lux","lva","lby","mar","mco","mda","mdg","mhl","mkd","mli",
+  "mmr","mng","mac","mnp","mtq","mrt","msr","mlt","mus","mdv",
+  "mwi","mex","mys","moz","nam","ncl","ner","nfk","nga","nic",
+  "nld","nor","npl","nru","niu","nzl","omn","pan","per","pyf",
+  "png","phl","pak","pol","spm","pcn","pri","pse","prt","plw",
+  "pry","qat","reu","rou","rus","rwa","sau","slb","syc","sdn",
+  "swe","sgp","shn","svn","sjm","svk","sle","smr","sen","som",
+  "sur","stp","slv","syr","swz","tca","tcd","tf","tgo","tha",
+  "tjk","tkl","tkm","tun","ton","tls","tur","tto","tuv","twn",
+  "tza","ukr","uga","um","usa","ury","uzb","vat","vct","ven",
+  "vgb","vir","vnm","vut","wlf","wsm","yem","yt","srb","zaf",
+  "zmb","mne","zwe","a1","a2","o1","ala","ggy","imn","jey",
   "blm","maf"};
 
 
@@ -110,34 +110,34 @@ get_time(struct timeval *tim){
 
 unsigned long
 ip_to_int(const char *addr){
-	unsigned int    c, octet, t;
-	unsigned long   ipnum;
-	int             i = 3;
+  unsigned int    c, octet, t;
+  unsigned long   ipnum;
+  int             i = 3;
 
-	octet = ipnum = 0;
-	while ((c = *addr++)) {
-		if (c == '.') {
-			if (octet > 255)
-				return 0;
-			ipnum <<= 8;
-			ipnum += octet;
-			i--;
-			octet = 0;
-		} else {
-			t = octet;
-			octet <<= 3;
-			octet += t;
-			octet += t;
-			c -= '0';
-			if (c > 9)
-				return 0;
-			octet += c;
-		}
-	}
-	if ((octet > 255) || (i != 0))
-		return 0;
-	ipnum <<= 8;
-	return ipnum + octet;
+  octet = ipnum = 0;
+  while ((c = *addr++)) {
+    if (c == '.') {
+      if (octet > 255)
+        return 0;
+      ipnum <<= 8;
+      ipnum += octet;
+      i--;
+      octet = 0;
+    } else {
+      t = octet;
+      octet <<= 3;
+      octet += t;
+      octet += t;
+      c -= '0';
+      if (c > 9)
+        return 0;
+      octet += c;
+    }
+  }
+  if ((octet > 255) || (i != 0))
+    return 0;
+  ipnum <<= 8;
+  return ipnum + octet;
 }
 
 
@@ -166,12 +166,12 @@ unsigned char con_type_to_int(char* con_type) {
 int compare_ranges(const void *fa, const void *fb) {
   if(fa == NULL)
   {
-    printf("FA IS NULL!!!\n");
+    if(debug){printf("FA IS NULL!!!\n");}
     return 0;
   }
   if(fb == NULL)
   {
-    printf("FB IS NULL!!!\n");
+    if(debug){printf("FB IS NULL!!!\n");}
     return 0;
   }
 
@@ -262,13 +262,13 @@ IpRange* find_range_for_ip(IPDB *db, char *ip) {
 
   if(db == NULL)
   {
-    printf("ERROR: DB ist NULL! ");
+    if(debug){printf("ERROR: DB ist NULL! ");}
     return NULL;
   }
 
   if(db->ranges_count == 0)
   {
-    printf("ERROR: DB has no Ranges Data. Can not search!\n");
+    if(debug){printf("ERROR: DB has no Ranges Data. Can not search!\n");}
     return NULL;
   }
 
@@ -319,7 +319,7 @@ City * find_city_for_ip_range(IPDB * db, IpRange* range)
 char* find_isp_for_ip_range(IPDB * db, IpRange* range)
 {
   if( range == NULL || range->isp_index < 0){
-    printf("Could not find isp for isp_index=%i", range->isp_index);
+    if(debug){printf("Could not find isp for isp_index=%i", range->isp_index);}
     return NULL;
   }
   return db->isps[range->isp_index];
@@ -346,7 +346,7 @@ isp_index_by_name(IPDB * db, char* isp_name){
     db->isps_count++;
     return new_index;
   }else{
-    printf("ERROR: MAX_ISPS_COUNT = %i limit reached - this should not happen!", MAX_ISPS_COUNT);
+    if(debug){printf("ERROR: MAX_ISPS_COUNT = %i limit reached - this should not happen!", MAX_ISPS_COUNT);}
     return -1;
   }
 }
@@ -378,7 +378,7 @@ read_ranges_csv(IPDB * db){
   int city_index;
 
   char* con_type;
-	char* isp_name;
+  char* isp_name;
   uint16 isp_index;
 
   int invalid_cities_count = 0;
@@ -392,7 +392,7 @@ read_ranges_csv(IPDB * db){
     city_index = 0;
 
     con_type = NULL;
-  	isp_name = NULL;
+    isp_name = NULL;
     int16 isp_index = -1;
 
     if(DEBUG && db->ranges_count % 1000000 == 0)
@@ -424,11 +424,11 @@ read_ranges_csv(IPDB * db){
       db->ranges_count++;
     }
   }
-  if(invalid_cities_count)
+  if(debug)
   {
-    printf("Found invalid cities: %i", invalid_cities_count);
+    if(invalid_cities_count ){printf("Found invalid cities: %i", invalid_cities_count);}
+    printf("\n Parsing of %i records needed %.6lf seconds\n", db->ranges_count, get_time(&tim)-t1);
   }
-  printf("\n Parsing of %i records needed %.6lf seconds\n", db->ranges_count, get_time(&tim)-t1);
 }
 
 
@@ -480,7 +480,7 @@ read_cities_csv(IPDB * db){
     {
       printf("Worked lines: %i\n", i);
     }
-   // COUNTRY,REGION,CITY-NAME,METRO-CODE,CITY-CODE,LATITUDE,LONGITUDE
+    // COUNTRY,REGION,CITY-NAME,METRO-CODE,CITY-CODE,LATITUDE,LONGITUDE
     country =    strtok(line, CITIES_DELIM);
     region =     strtok(NULL, CITIES_DELIM);
     name =       strtok(NULL, CITIES_DELIM);
@@ -506,14 +506,14 @@ read_cities_csv(IPDB * db){
 }
 
 /**
-cache-file is an exact binary copy of the ranges+cities-arrays from memory,
-the layout goes like this:
+  cache-file is an exact binary copy of the ranges+cities-arrays from memory,
+  the layout goes like this:
   db->cities_count [4 Bytes]
   db->ranges_count [4 Bytes]
 
   db->cities [sizeof(City)=24 x db->ranges_count Bytes]
   db->ranges [sizeof(IpRange)=24 x db->ranges_count Bytes]
-*/
+  */
 void
 write_cache_file(IPDB * db){
   struct timeval tim;
@@ -580,7 +580,7 @@ read_cache_file(IPDB * db){
 
   if(cities_header_read == 0 || isps_header_read == 0 || ranges_header_read == 0 || db->cities_count == 0 || db->isps_count ==0 || db->ranges_count ==0)
   {
-    printf("Could not read Cities-Header from Cache-File: %s", db->cache_file_name);
+    if(debug){printf("Could not read Cities-Header from Cache-File: %s", db->cache_file_name);}
     return 0;
   }
   if(DEBUG)
