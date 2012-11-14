@@ -166,12 +166,12 @@ unsigned char con_type_to_int(char* con_type) {
 int compare_ranges(const void *fa, const void *fb) {
   if(fa == NULL)
   {
-    if(debug){printf("FA IS NULL!!!\n");}
+    if(DEBUG){printf("FA IS NULL!!!\n");}
     return 0;
   }
   if(fb == NULL)
   {
-    if(debug){printf("FB IS NULL!!!\n");}
+    if(DEBUG){printf("FB IS NULL!!!\n");}
     return 0;
   }
 
@@ -262,13 +262,13 @@ IpRange* find_range_for_ip(IPDB *db, char *ip) {
 
   if(db == NULL)
   {
-    if(debug){printf("ERROR: DB ist NULL! ");}
+    if(DEBUG){printf("ERROR: DB ist NULL! \n");}
     return NULL;
   }
 
   if(db->ranges_count == 0)
   {
-    if(debug){printf("ERROR: DB has no Ranges Data. Can not search!\n");}
+    if(DEBUG){printf("ERROR: DB has no Ranges Data. Can not search!\n");}
     return NULL;
   }
 
@@ -319,7 +319,7 @@ City * find_city_for_ip_range(IPDB * db, IpRange* range)
 char* find_isp_for_ip_range(IPDB * db, IpRange* range)
 {
   if( range == NULL || range->isp_index < 0){
-    if(debug){printf("Could not find isp for isp_index=%i", range->isp_index);}
+    if(DEBUG){printf("Could not find isp for isp_index=%i\n", range->isp_index);}
     return NULL;
   }
   return db->isps[range->isp_index];
@@ -346,7 +346,7 @@ isp_index_by_name(IPDB * db, char* isp_name){
     db->isps_count++;
     return new_index;
   }else{
-    if(debug){printf("ERROR: MAX_ISPS_COUNT = %i limit reached - this should not happen!", MAX_ISPS_COUNT);}
+    if(DEBUG){printf("ERROR: MAX_ISPS_COUNT = %i limit reached - this should not happen!\n", MAX_ISPS_COUNT);}
     return -1;
   }
 }
@@ -368,7 +368,7 @@ read_ranges_csv(IPDB * db){
   if(f == NULL)
   {
     if(DEBUG)
-      printf("Could not open the CSV-file: %s", db->ranges_csv_file);
+      printf("Could not open the CSV-file: %s\n", db->ranges_csv_file);
     return;
   }
   char line[256];
@@ -410,7 +410,7 @@ read_ranges_csv(IPDB * db){
     if(city_index < 0)
     {
       if(DEBUG)
-        printf("Could not find city for code: %i", atoi(city_code));
+        printf("Could not find city for code: %i\n", atoi(city_code));
       invalid_cities_count ++;
       continue;
     }else{
@@ -424,9 +424,9 @@ read_ranges_csv(IPDB * db){
       db->ranges_count++;
     }
   }
-  if(debug)
+  if(DEBUG)
   {
-    if(invalid_cities_count ){printf("Found invalid cities: %i", invalid_cities_count);}
+    if(invalid_cities_count ){printf("Found invalid cities: %i\n", invalid_cities_count);}
     printf("\n Parsing of %i records needed %.6lf seconds\n", db->ranges_count, get_time(&tim)-t1);
   }
 }
@@ -463,7 +463,7 @@ read_cities_csv(IPDB * db){
   if(f == NULL)
   {
     if(DEBUG)
-      printf("Could not open the Cities-CSV-file: %s", db->cities_csv_file);
+      printf("Could not open the Cities-CSV-file: %s\n", db->cities_csv_file);
     return;
   }
   char line[256];
@@ -524,7 +524,7 @@ write_cache_file(IPDB * db){
   f = fopen(db->cache_file_name, "w");
   if(f==NULL){
     if(DEBUG)
-      printf("Could not open Cache-File: %s", db->cache_file_name);
+      printf("Could not open Cache-File: %s\n", db->cache_file_name);
     return;
   }
   if(DEBUG){
@@ -570,7 +570,7 @@ read_cache_file(IPDB * db){
   f = fopen(db->cache_file_name, "r");
   if(f==NULL){
     if(DEBUG)
-      printf("Could not open Cache-File: %s", db->cache_file_name);
+      printf("Could not open Cache-File: %s\n", db->cache_file_name);
     return 0;
   }
   int cities_header_read = fread(&(db->cities_count), sizeof(db->cities_count),1,f);
@@ -580,7 +580,7 @@ read_cache_file(IPDB * db){
 
   if(cities_header_read == 0 || isps_header_read == 0 || ranges_header_read == 0 || db->cities_count == 0 || db->isps_count ==0 || db->ranges_count ==0)
   {
-    if(debug){printf("Could not read Cities-Header from Cache-File: %s", db->cache_file_name);}
+    if(DEBUG){printf("Could not read Cities-Header from Cache-File: %s\n", db->cache_file_name);}
     return 0;
   }
   if(DEBUG)
@@ -593,7 +593,7 @@ read_cache_file(IPDB * db){
   objects_read += fread(db->cities, sizeof(City),db->cities_count,f);
 
   if(DEBUG)
-    printf("Reading in the isps into preallocated buffer of size: ", sizeof(db->isps));
+    printf("Reading in the isps into preallocated buffer of size: %lu\n", sizeof(db->isps));
   objects_read += fread(db->isps, MAX_ISP_NAME_LENGTH, db->isps_count,f);
 
   if(DEBUG)
@@ -627,7 +627,7 @@ benchmark_search(IPDB * db,int count){
 
 IPDB * init_db(char * cities_csv_file, char * ranges_csv_file, char * cache_file_name){
   if(DEBUG)
-    printf("Initializing db");
+    printf("Initializing db\n");
   IPDB *db;
   db = (IPDB*)malloc(sizeof(IPDB));
   if (db == NULL) //no memory left
