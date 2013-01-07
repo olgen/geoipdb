@@ -1,5 +1,5 @@
 require 'java'
-require 'lib/geoipdb.jar'
+require File.expand_path('../geoipdb.jar', __FILE__)
 
 class GeoIpDb
 
