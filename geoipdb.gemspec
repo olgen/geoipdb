@@ -12,13 +12,6 @@ Gem::Specification.new do |gem|
   gem.summary = "Fast (>3 Mio queries/sec!!!) GeoIpDb implementation for Ruby using C-Extensions."
   gem.homepage = "http://github.com/madvertise/geoipdb"
 
-  case RUBY_PLATFORM
-  when 'java'
-    gem.platform = 'java'
-  else
-    gem.extensions = ["ext/geoipdb/extconf.rb"]
-  end
-
   gem.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
