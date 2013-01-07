@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |gem|
   gem.name = "geoipdb"
-  gem.version = "0.4.3"
+  gem.version = "0.5.0"
   gem.licenses = ["MIT"]
 
-  gem.authors = ["Eugen Martin", "Martin Karlsch"]
-  gem.email = ["eugeniusmartinus@googlemail.com", "martin.karlsch@madvertise.com"]
+  gem.authors = ["Eugen Martin", "Martin Karlsch", "Thomas Hirsch", "Benedikt Böhm"]
+  gem.email = ["eugeniusmartinus@googlemail.com", "martin.karlsch@madvertise.com", "thomas.hirsch@madvertise.com", "benedikt.boehm@madvertise.com"]
 
   gem.description = "Returns a GeoLocation and additional information for given IP. Reads Data from CSV-Files and uses internal binary caching."
   gem.summary = "Fast (>3 Mio queries/sec!!!) GeoIpDb implementation for Ruby using C-Extensions."

@@ -1,1 +1,1 @@
-rvm use --create ruby-1.9.3-p286@geoipdb
+rvm use --create jruby-1.7.2@geoipdb

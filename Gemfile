@@ -1,9 +1,9 @@
 source :rubygems
 
-group :development do
+group :development, :test do
   gem 'bundler'
   gem 'rake'
-  gem 'redcarpet'
+  gem 'rake-compiler'
   gem 'rspec'
   gem 'simplecov'
   gem 'yard'
