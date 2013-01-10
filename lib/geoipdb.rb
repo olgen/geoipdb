@@ -6,4 +6,3 @@ if defined?(JRUBY_VERSION)
 else
   require 'geoipdb/geoipdb'
 end
-

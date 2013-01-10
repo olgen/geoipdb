@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name = "geoipdb"
-  gem.version = "0.5.1"
+  gem.version = "0.5.2"
   gem.licenses = ["MIT"]
 
   gem.authors = ["Eugen Martin", "Martin Karlsch", "Thomas Hirsch", "Benedikt Böhm"]

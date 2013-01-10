@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
-public class JGeoIpDb
+public class GeoIpDb
 {
     private static final int MAX_CITY_COUNT = 1000000;
     private static final int MAX_RANGE_COUNT = 10000000;
@@ -12,19 +12,17 @@ public class JGeoIpDb
     ArrayList<String> isps;
     ArrayList<IpRange> ranges;
 
-    public JGeoIpDb(String cities_file_name, String ranges_file_name) throws FileNotFoundException
+    public GeoIpDb(String citiesFileName, String rangesFileName) throws FileNotFoundException
     {
         cities = new HashMap<Integer, City>();
         isps = new ArrayList<String>();
         ranges = new ArrayList<IpRange>();
 
-        System.out.println("Parsing GeoIpDatabase. This takes approximately 30s...");
-
-        read_cities_csv(cities_file_name);
-        read_ranges_csv(ranges_file_name);
+        readCitiesCSV(citiesFileName);
+        readRangesCSV(rangesFileName);
     }
 
-    public IpRange find_range_for_ip(String ip)
+    public IpRange findRangeForIp(String ip)
     {
         if (ranges.isEmpty()) {
             System.out.println("ERROR: DB has no ranges data. Can not search!");
@@ -40,7 +38,7 @@ public class JGeoIpDb
         return ranges.get(index);
     }
 
-    public City find_city_for_ip_range(IpRange range)
+    public City findCityForIpRange(IpRange range)
     {
         if (range == null) {
             System.out.println("Cannot find city for no given range, right?");
@@ -51,11 +49,11 @@ public class JGeoIpDb
             return null;
         }
 
-        if (range.city_code == 0) {
-            System.out.format("ERROR: Could not find city with index: %d\n", range.city_code);
+        if (range.cityCode == 0) {
+            System.out.format("ERROR: Could not find city with index: %d\n", range.cityCode);
         }
 
-        return cities.get(range.city_code);
+        return cities.get(range.cityCode);
     }
 
     public ArrayList<IpRange> get_ranges()
@@ -63,7 +61,7 @@ public class JGeoIpDb
         return ranges;
     }
 
-    private void read_cities_csv(String file_name) throws FileNotFoundException
+    private void readCitiesCSV(String file_name) throws FileNotFoundException
     {
         CsvReader reader = new CsvReader(file_name);
         String[] line = null;
@@ -77,11 +75,11 @@ public class JGeoIpDb
                 return;
             }
             city = new City(line);
-            cities.put(city.city_code, city);
+            cities.put(city.cityCode, city);
         }
     }
 
-    private void read_ranges_csv(String file_name) throws FileNotFoundException
+    private void readRangesCSV(String file_name) throws FileNotFoundException
     {
         CsvReader reader = new CsvReader(file_name);
         String[] line = null;

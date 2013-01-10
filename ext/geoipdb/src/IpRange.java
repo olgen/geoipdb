@@ -1,92 +1,72 @@
 public class IpRange implements Comparable<IpRange>
 {
-    int from;
-    int to;
-    boolean is_mobile;
-    int city_code;
-    String isp_name;
+    long from;
+    long to;
+    boolean isMobile;
+    int cityCode;
+    String ispName;
 
-    public IpRange(String[] range_vals)
+    public IpRange(String[] rangeValues)
     {
-        this.from = ip_to_int(range_vals[0]);
-        this.to = ip_to_int(range_vals[1]);
-        this.is_mobile = con_type_to_bool(range_vals[2]);
-        this.city_code = Integer.parseInt(range_vals[3]);
+        this.from = ipToLong(rangeValues[0]);
+        this.to = ipToLong(rangeValues[1]);
+        this.isMobile = conTypeToBool(rangeValues[2]);
+        this.cityCode = Integer.parseInt(rangeValues[3]);
 
-        if (!range_vals[4].equals("?")) {
+        if (!rangeValues[4].equals("?")) {
             // Use only the first 100 chars to be compliant with the c implementation
-            this.isp_name = range_vals[4].length() > 100 ? range_vals[4].substring(0, 100) : range_vals[4];
+            this.ispName = rangeValues[4].length() > 100 ? rangeValues[4].substring(0, 100) : rangeValues[4];
         }
-    }
-
-    public int getCity_code()
-    {
-        return city_code;
-    }
-
-    public void setCity_code(int city_code)
-    {
-        this.city_code = city_code;
-    }
-
-    public int getFrom()
-    {
-        return from;
-    }
-
-    public int getTo()
-    {
-        return to;
-    }
-
-    public boolean isIs_mobile()
-    {
-        return is_mobile;
-    }
-
-    public String getIsp_name()
-    {
-        return isp_name;
     }
 
     public IpRange(String from, String to)
     {
-        this.from = ip_to_int(from);
-        this.to = ip_to_int(to);
+        this.from = ipToLong(from);
+        this.to = ipToLong(to);
     }
 
-    public int get_from()
+    public int getCityCode()
+    {
+        return cityCode;
+    }
+
+    public void setCityCode(int cityCode)
+    {
+        this.cityCode = cityCode;
+    }
+
+    public long getFrom()
     {
         return from;
     }
 
-    public int get_to()
+    public long getTo()
     {
         return to;
     }
 
-    public String get_isp_name()
+    public boolean getIsMobile()
     {
-        return isp_name;
+        return isMobile;
     }
 
-    private boolean con_type_to_bool(String con_type)
+    public String getIspName()
     {
-        return (con_type.length() > 0) && (con_type.charAt(0) == 'm');
+        return ispName;
     }
 
-    private int ip_to_int(String ip)
+    private boolean conTypeToBool(String conType)
     {
-        int result = 0;
-        int power;
-        int octet_count = 0;
-        String[] addr_array;
+        return (conType.length() > 0) && (conType.charAt(0) == 'm');
+    }
+
+    private long ipToLong(String ip)
+    {
+        long result = 0;
 
         if (!(ip == null || ip.equals(""))) {
-            addr_array = ip.split("\\.");
-            for (octet_count = 0; octet_count < addr_array.length; octet_count++) {
-                power = 3 - octet_count;
-                result += ((Integer.parseInt(addr_array[octet_count]) % 256 * Math.pow(256, power)));
+            for (String octet : ip.split("\\.")) {
+                result = (result << 8) | Integer.parseInt(octet);
             }
         }
 
@@ -122,7 +102,7 @@ public class IpRange implements Comparable<IpRange>
             else
                 return 0;
         } else if (other.to == 0 && this.to == 0) {
-            return other.from - this.from;
+            return (int)(other.from - this.from);
         }
 
         return 0;

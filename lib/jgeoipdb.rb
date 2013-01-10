@@ -12,7 +12,7 @@ class GeoIpDb
   def initialize(cities_file, ranges_file, cache_file)
     # the Java implementation does not support cache files,
     # since the java serialisation is slower than the actual csv parsing
-    @jdb = Java::JGeoIpDb.new(cities_file, ranges_file)
+    @jdb = Java::GeoIpDb.new(cities_file, ranges_file)
   end
 
   def information_for_ip(ip)

@@ -1,11 +1,11 @@
 public class City implements Comparable<City>
 {
-    int city_code;
+    int cityCode;
     String name;
     double lat;
     double lng;
-    String country_iso3;
-    String country_iso2;
+    String countryISO3;
+    String countryISO2;
 
 
     public static final String[] country_iso2_codes = {
@@ -62,14 +62,14 @@ public class City implements Comparable<City>
         "jey", "blm", "maf"
     };
 
-    public City(String[] city_vals)
+    public City(String[] cityValues)
     {
-        this.city_code = Integer.parseInt(city_vals[4]);
-        this.name = city_vals[2];
-        this.country_iso2 = iso2_code(city_vals[0]);
-        this.country_iso3 = city_vals[0];
-        this.lat = Double.parseDouble(city_vals[5]);
-        this.lng = Double.parseDouble(city_vals[6]);
+        this.cityCode = Integer.parseInt(cityValues[4]);
+        this.name = cityValues[2];
+        this.countryISO2 = iso2_code(cityValues[0]);
+        this.countryISO3 = cityValues[0];
+        this.lat = Double.parseDouble(cityValues[5]);
+        this.lng = Double.parseDouble(cityValues[6]);
     }
 
     private String iso2_code(String iso3_code)
@@ -86,12 +86,12 @@ public class City implements Comparable<City>
     @Override
     public int compareTo(City other)
     {
-        return this.city_code - other.city_code;
+        return this.cityCode - other.cityCode;
     }
 
-    public int getCity_code()
+    public int getCityCode()
     {
-        return city_code;
+        return cityCode;
     }
 
     public String getName()
@@ -108,13 +108,13 @@ public class City implements Comparable<City>
         return lng;
     }
 
-    public String getCountry_iso3()
+    public String getCountryISO3()
     {
-        return country_iso3;
+        return countryISO3;
     }
 
-    public String getCountry_iso2()
+    public String getCountryISO2()
     {
-        return country_iso2;
+        return countryISO2;
     }
 }
