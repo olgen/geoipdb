@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name = "geoipdb"
-  gem.version = "0.5.2"
+  gem.version = "0.5.4"
   gem.licenses = ["MIT"]
 
   gem.authors = ["Eugen Martin", "Martin Karlsch", "Thomas Hirsch", "Benedikt Böhm"]
@@ -16,4 +16,13 @@ Gem::Specification.new do |gem|
   gem.files         = `git ls-files`.split("\n")
   gem.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   gem.require_paths = ["lib", "ext"]
+
+  if RUBY_PLATFORM =~ /java/
+    gem.platform = "java"
+    gem.files << "lib/geoipdb.jar"
+  else
+    gem.extensions = ["ext/geoipdb/extconf.rb"]
+  end
+
+  gem.add_development_dependency "rake-compiler"
 end
