@@ -1,6 +1,6 @@
 # geoipdb: fast (in memory!) geo location db.
 
-Fast (>3 Mio queries/sec!!!) GeoIpDb implementation for Ruby using C-Extensions. 
+Fast (>3 Mio queries/sec!!!) GeoIpDb implementation for Ruby using C/Java-Extensions.
 
   * Returns a GeoLocation and additional information for a given IP. 
   * Reads Data from CSV-Files and uses internal binary caching.
